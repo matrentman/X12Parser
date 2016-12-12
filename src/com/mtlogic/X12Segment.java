@@ -1,37 +1,55 @@
 package com.mtlogic;
 
-import java.util.Arrays;
-
 public class X12Segment {
-	String name;
-	String seperator;
-	String[] elements;
+	private String name;
+	private String subName;
+	private String seperator;
+	private String[] elements;
 	
 	X12Segment(String data, String seperator) {
 		this.seperator = seperator;
-		this.setData(data);
-		this.name = elements[0] + elements[1];
-	}
-
-	public String getData() {
-		return Arrays.toString(elements);
-	}
-
-	public void setData(String data) {
 		if (seperator.equals("*")) {
 			elements = data.split("\\*");
 		} else {
 			elements = data.split(seperator);
 		}
-		this.name = elements[0] + elements[1];
+		this.name = elements[0];
+		this.subName = elements[1];
+		this.name = elements[0];
+		this.subName = elements[1];
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSubName() {
+		return subName;
+	}
+
+	public void setSubName(String subName) {
+		this.subName = subName;
+	}
+	
+	public String[] getElements() {
+		return elements;
+	}
+
+	public void setElements(String[] elements) {
+		this.elements = elements;
 	}
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (String element : elements) {
-			sb.append(element);
+		for (int i = 0; i < elements.length - 1; i++) {
+			sb.append(elements[i]);
 			sb.append(seperator);
 		}
+		sb.append(elements[elements.length - 1]);
 		return sb.toString();
 	}
 	

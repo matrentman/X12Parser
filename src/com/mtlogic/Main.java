@@ -14,6 +14,9 @@ public class Main {
 		System.out.println("\nResult of calling X12Message.print()...");
 		x12Message.print();
 		
+		System.out.println("\nResult of calling X12Envelope.toString()...");
+		System.out.println(x12Message.getEnvelope().toString());
+		
 		System.out.println("\nResult of calling X12Message.toString()...");
 		System.out.println(x12Message.toString());
 	}

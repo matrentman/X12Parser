@@ -6,6 +6,10 @@ public class X12Message {
 	public static final int ELEMENT_DELIMITER_PS = 103;
 	public static final int SUB_ELEMENT_DELIMITER_PS = 104;
 	public static final int SEGMENT_DELIMITER_PS = 105;
+	public static final String ISA = "ISA";
+	public static final String GS = "GS";
+	public static final String IEA = "IEA";
+	public static final String GE = "GE";
 	
 	Vector<X12Segment> segments = new Vector<X12Segment>();
 	X12Envelope envelope = new X12Envelope();
@@ -22,19 +26,27 @@ public class X12Message {
 		String[] parsedSegments = data.split(segmentDelimiter); 
 		for (String str : parsedSegments) {
 			X12Segment segment;
-            segment = new X12Segment(str, elementDelimiter);
-			segments.add(segment);
+            if (str.startsWith(ISA + elementDelimiter)) {
+            	segment = new X12Segment(str + segmentDelimiter, elementDelimiter);
+            	envelope.setIsaSegment(segment);
+            } else if (str.startsWith(GS + elementDelimiter)) {
+            	segment = new X12Segment(str, elementDelimiter);
+            	envelope.setGsSegment(segment);
+            } else if (str.startsWith(IEA + elementDelimiter)) {
+            	segment = new X12Segment(str, elementDelimiter);
+            	envelope.setIeaSegment(segment);
+            } else if (str.startsWith(GE + elementDelimiter)) {
+            	segment = new X12Segment(str, elementDelimiter);
+            	envelope.setGeSegment(segment);
+            } else {
+            	segment = new X12Segment(str, elementDelimiter);
+            	segments.add(segment);
+            }
 		}
 	}
 	
 	public void add(X12Segment segment) {
 		segments.addElement(segment);
-	}
-	
-	public void print() {
-		for (X12Segment segment : segments) {
-			System.out.println(segment.toString() + segmentDelimiter);
-		}
 	}
 	
 	public boolean validate() {
@@ -51,9 +63,8 @@ public class X12Message {
 		this.segments = segments;
 	}
 	
-	public String getISASegment() {
-		String isaSegment = segments.get(0).getData();
-		return isaSegment;
+	public X12Segment getISASegment() {
+		return segments.get(0);
 	}
 	
 	public void setISASegment(String data) {
@@ -61,14 +72,27 @@ public class X12Message {
 		segments.set(0, isaSegment);
 	}
 	
-	public String getGSSegment() {
-		String gsSegment = segments.get(1).getData();
-		return gsSegment;
+	public X12Segment getGSSegment() {
+		return segments.get(1);
 	}
 	
 	public void setGSSegment(String data) {
 		X12Segment gsSegment = new X12Segment(data, elementDelimiter);
 		segments.set(0, gsSegment);
+	}
+	
+	public X12Envelope getEnvelope() {
+		return envelope;
+	}
+
+	public void setEnvelope(X12Envelope envelope) {
+		this.envelope = envelope;
+	}
+	
+	public void print() {
+		for (X12Segment segment : segments) {
+			System.out.println(segment.toString() + segmentDelimiter);
+		}
 	}
 	
 	public String toString() {
@@ -79,4 +103,5 @@ public class X12Message {
 		}
 		return sb.toString();
 	}
+
 }
