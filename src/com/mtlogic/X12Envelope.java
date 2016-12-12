@@ -1,11 +1,54 @@
 package com.mtlogic;
 
 public class X12Envelope {
-	X12Segment isaSegment;
-	X12Segment gsSegment;
-	X12Segment ieaSegment;
-	X12Segment geSegment;
-	String segmentDelimiter;
+	public static int ISA_LENGTH = 126;
+	
+	private X12Segment isaSegment;
+	private X12Segment gsSegment;
+	private X12Segment ieaSegment;
+	private X12Segment geSegment;
+	private String segmentDelimiter;
+	
+	public boolean validate() {
+		boolean isValid = false;
+		if (this.validateIsaSegment() && this.validateIeaSegment()  
+				&& this.validateGsSegment() && this.validateGeSegment()) {
+			isValid = true;
+		}
+		return isValid;
+	}
+	
+	public boolean validateIsaSegment() {
+		boolean isValid = false;
+		if (isaSegment != null && isaSegment.toString().length() != ISA_LENGTH) {
+			isValid = true;
+		}
+		return isValid;
+	}
+	
+	public boolean validateIeaSegment() {
+		boolean isValid = false;
+		if (ieaSegment != null) {
+			isValid = true;
+		}
+		return isValid;
+	}
+	
+	public boolean validateGsSegment() {
+		boolean isValid = false;
+		if (gsSegment != null) {
+			isValid = true;
+		}
+		return isValid;
+	}
+	
+	public boolean validateGeSegment() {
+		boolean isValid = false;
+		if (geSegment != null) {
+			isValid = true;
+		}
+		return isValid;
+	}
 	
 	public X12Segment getIsaSegment() {
 		return isaSegment;

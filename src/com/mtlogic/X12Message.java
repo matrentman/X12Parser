@@ -51,7 +51,7 @@ public class X12Message {
 	
 	public boolean validate() {
 		boolean isValid = false;
-		
+		isValid = envelope.validate();
 		return isValid;
 	}
 	
