@@ -90,9 +90,13 @@ public class X12Message {
 	}
 	
 	public void print() {
+		System.out.println(envelope.getIsaSegment().toString());
+		System.out.println(envelope.getGsSegment().toString() + segmentDelimiter);
 		for (X12Segment segment : segments) {
 			System.out.println(segment.toString() + segmentDelimiter);
 		}
+		System.out.println(envelope.getGeSegment().toString() + segmentDelimiter);
+		System.out.println(envelope.getIeaSegment().toString() + segmentDelimiter);
 	}
 	
 	public String toString() {
