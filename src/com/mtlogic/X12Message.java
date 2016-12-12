@@ -9,6 +9,7 @@ public class X12Message {
 	
 	Vector<X12Segment> segments = new Vector<X12Segment>();
 	X12Envelope envelope = new X12Envelope();
+	
 	String elementDelimiter;
 	String subelementDelimiter;
 	String segmentDelimiter;
@@ -34,6 +35,12 @@ public class X12Message {
 		for (X12Segment segment : segments) {
 			System.out.println(segment.toString() + segmentDelimiter);
 		}
+	}
+	
+	public boolean validate() {
+		boolean isValid = false;
+		
+		return isValid;
 	}
 	
 	public Vector<X12Segment> getSegments() {

@@ -1,6 +1,6 @@
 package com.mtlogic;
 
-public class Parser {
+public class Main {
 	
 	public static final int ELEMENT_DELIMITER_PS = 103;
 	public static final int SUB_ELEMENT_DELIMITER_PS = 104;

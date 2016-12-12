@@ -3,12 +3,14 @@ package com.mtlogic;
 import java.util.Arrays;
 
 public class X12Segment {
+	String name;
 	String seperator;
 	String[] elements;
 	
 	X12Segment(String data, String seperator) {
 		this.seperator = seperator;
 		this.setData(data);
+		this.name = elements[0] + elements[1];
 	}
 
 	public String getData() {
@@ -21,6 +23,7 @@ public class X12Segment {
 		} else {
 			elements = data.split(seperator);
 		}
+		this.name = elements[0] + elements[1];
 	}
 	
 	public String toString() {
