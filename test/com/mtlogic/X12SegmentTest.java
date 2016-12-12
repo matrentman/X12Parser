@@ -1,4 +1,4 @@
-package com.emptylogic;
+package com.mtlogic;
 
 public class X12SegmentTest {
 
