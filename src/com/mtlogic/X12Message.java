@@ -97,10 +97,17 @@ public class X12Message {
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		sb.append(envelope.getIsaSegment().toString());
+		sb.append(envelope.getGsSegment().toString());
+		sb.append(segmentDelimiter);
 		for (X12Segment segment : segments) {
 			sb.append(segment.toString());
 			sb.append(segmentDelimiter);
 		}
+		sb.append(envelope.getGeSegment().toString());
+		sb.append(segmentDelimiter);
+		sb.append(envelope.getIeaSegment().toString());
+		sb.append(segmentDelimiter);
 		return sb.toString();
 	}
 
