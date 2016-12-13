@@ -20,12 +20,6 @@ public class Main {
 		} else {
 			System.out.println("Invalid message!!!");
 		}
-		
-		if(msg276.equals(x12Message.toString())) {
-			System.out.println("Hooray! Generated correct X12 message!!!");
-		} else {
-			System.out.println("Booooo! Could not Generate correct X12 message!!!");
-		}
 	}
 	
 }
