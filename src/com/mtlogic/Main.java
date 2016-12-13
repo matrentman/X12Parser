@@ -15,13 +15,16 @@ public class Main {
 			System.out.println("\nResult of calling X12Message.print()...");
 			x12Message.print();
 			
-			System.out.println("\nResult of calling X12Envelope.toString()...");
-			System.out.println(x12Message.getEnvelope().toString());
-			
 			System.out.println("\nResult of calling X12Message.toString()...");
 			System.out.println(x12Message.toString());
 		} else {
 			System.out.println("Invalid message!!!");
+		}
+		
+		if(msg276.equals(x12Message.toString())) {
+			System.out.println("Hooray! Generated correct X12 message!!!");
+		} else {
+			System.out.println("Booooo! Could not Generate correct X12 message!!!");
 		}
 	}
 	

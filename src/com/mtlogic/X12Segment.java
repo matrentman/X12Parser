@@ -3,15 +3,15 @@ package com.mtlogic;
 public class X12Segment {
 	private String name;
 	private String subName;
-	private String seperator;
+	private String delimiter;
 	private String[] elements;
 	
-	X12Segment(String data, String seperator) {
-		this.seperator = seperator;
-		if (seperator.equals("*")) {
+	X12Segment(String data, String delimiter) {
+		this.delimiter = delimiter;
+		if (delimiter.equals("*")) {
 			elements = data.split("\\*");
 		} else {
-			elements = data.split(seperator);
+			elements = data.split(delimiter);
 		}
 		this.name = elements[0];
 		this.subName = elements[1];
@@ -47,7 +47,7 @@ public class X12Segment {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < elements.length - 1; i++) {
 			sb.append(elements[i]);
-			sb.append(seperator);
+			sb.append(delimiter);
 		}
 		sb.append(elements[elements.length - 1]);
 		return sb.toString();

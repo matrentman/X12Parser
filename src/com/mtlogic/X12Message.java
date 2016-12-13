@@ -11,8 +11,8 @@ public class X12Message {
 	public static final String IEA = "IEA";
 	public static final String GE = "GE";
 	
-	Vector<X12Segment> segments = new Vector<X12Segment>();
-	X12Envelope envelope = new X12Envelope();
+	X12Envelope isaEnvelope;
+	Vector<X12Container> containers = new Vector<X12Container>();
 	
 	String elementDelimiter;
 	String subelementDelimiter;
@@ -23,94 +23,76 @@ public class X12Message {
 		subelementDelimiter = "" + data.charAt(SUB_ELEMENT_DELIMITER_PS);
 		segmentDelimiter = "" + data.charAt(SEGMENT_DELIMITER_PS);
 		
-		String[] parsedSegments = data.split(segmentDelimiter); 
+		isaEnvelope = new X12Envelope();
+		
+		String[] parsedSegments = data.split(segmentDelimiter);
+		X12Segment segment = null;
+		X12Container container = null;
 		for (String str : parsedSegments) {
-			X12Segment segment;
             if (str.startsWith(ISA + elementDelimiter)) {
-            	segment = new X12Segment(str + segmentDelimiter, elementDelimiter);
-            	envelope.setIsaSegment(segment);
-            } else if (str.startsWith(GS + elementDelimiter)) {
             	segment = new X12Segment(str, elementDelimiter);
-            	envelope.setGsSegment(segment);
+            	isaEnvelope.setStartingSegment(segment);
             } else if (str.startsWith(IEA + elementDelimiter)) {
             	segment = new X12Segment(str, elementDelimiter);
-            	envelope.setIeaSegment(segment);
+            	isaEnvelope.setEndingSegment(segment);
+            } else if (str.startsWith(GS + elementDelimiter)) {
+            	segment = new X12Segment(str, elementDelimiter);
+            	container = new X12Container();
+            	container.setSegmentDelimiter(segmentDelimiter);
+            	container.getEnvelope().setSegmentDelimiter(segmentDelimiter);
+            	container.getEnvelope().setStartingSegment(segment);
             } else if (str.startsWith(GE + elementDelimiter)) {
             	segment = new X12Segment(str, elementDelimiter);
-            	envelope.setGeSegment(segment);
+            	container.getEnvelope().setEndingSegment(segment);
+            	containers.add(container);
             } else {
             	segment = new X12Segment(str, elementDelimiter);
-            	segments.add(segment);
+            	container.getSegments().add(segment);
             }
 		}
 	}
 	
-	public void add(X12Segment segment) {
-		segments.addElement(segment);
-	}
-	
 	public boolean validate() {
 		boolean isValid = false;
-		isValid = envelope.validate();
+		isValid = isaEnvelope.validate();
 		return isValid;
 	}
 	
-	public Vector<X12Segment> getSegments() {
-		return segments;
+	public X12Envelope getIsaEnvelope() {
+		return isaEnvelope;
 	}
 
-	public void setSegments(Vector<X12Segment> segments) {
-		this.segments = segments;
-	}
-	
-	public X12Segment getISASegment() {
-		return segments.get(0);
-	}
-	
-	public void setISASegment(String data) {
-		X12Segment isaSegment = new X12Segment(data, elementDelimiter);
-		segments.set(0, isaSegment);
-	}
-	
-	public X12Segment getGSSegment() {
-		return segments.get(1);
-	}
-	
-	public void setGSSegment(String data) {
-		X12Segment gsSegment = new X12Segment(data, elementDelimiter);
-		segments.set(0, gsSegment);
-	}
-	
-	public X12Envelope getEnvelope() {
-		return envelope;
-	}
-
-	public void setEnvelope(X12Envelope envelope) {
-		this.envelope = envelope;
+	public void setIsaEnvelope(X12Envelope envelope) {
+		this.isaEnvelope = envelope;
 	}
 	
 	public void print() {
-		System.out.println(envelope.getIsaSegment().toString());
-		System.out.println(envelope.getGsSegment().toString() + segmentDelimiter);
-		for (X12Segment segment : segments) {
-			System.out.println(segment.toString() + segmentDelimiter);
+		System.out.println(isaEnvelope.getStartingSegment().toString() + segmentDelimiter);
+		for (X12Container container : containers) {
+			System.out.println(container.getEnvelope().getStartingSegment().toString() + segmentDelimiter);
+			for (X12Segment segment : container.getSegments()) {
+				System.out.println(segment.toString() + segmentDelimiter);
+			}
+			System.out.println(container.getEnvelope().getEndingSegment().toString() + segmentDelimiter);
 		}
-		System.out.println(envelope.getGeSegment().toString() + segmentDelimiter);
-		System.out.println(envelope.getIeaSegment().toString() + segmentDelimiter);
+		System.out.println(isaEnvelope.getEndingSegment().toString() + segmentDelimiter);
 	}
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(envelope.getIsaSegment().toString());
-		sb.append(envelope.getGsSegment().toString());
+		sb.append(isaEnvelope.getStartingSegment().toString());
 		sb.append(segmentDelimiter);
-		for (X12Segment segment : segments) {
-			sb.append(segment.toString());
+		for (X12Container container : containers) {
+			sb.append(container.getEnvelope().getStartingSegment().toString());
+			sb.append(segmentDelimiter);
+			for (X12Segment segment : container.getSegments()) {
+				sb.append(segment.toString());
+				sb.append(segmentDelimiter);
+			}
+			sb.append(container.getEnvelope().getStartingSegment().toString());
 			sb.append(segmentDelimiter);
 		}
-		sb.append(envelope.getGeSegment().toString());
-		sb.append(segmentDelimiter);
-		sb.append(envelope.getIeaSegment().toString());
+		sb.append(isaEnvelope.getEndingSegment().toString());
 		sb.append(segmentDelimiter);
 		return sb.toString();
 	}
