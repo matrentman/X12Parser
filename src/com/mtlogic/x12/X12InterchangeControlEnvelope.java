@@ -82,7 +82,7 @@ public class X12InterchangeControlEnvelope {
 		this.functionalGroupEnvelopes = functionalGroupEnvelopes;
 	}
 	
-	public void validate() throws InvalidX12MessageException {
+	public Vector<String> validate() {
 		Vector<String> messages = new Vector<String>();
 		
 		if (this.elementDelimiter == null || this.elementDelimiter.isEmpty()) {
@@ -95,35 +95,22 @@ public class X12InterchangeControlEnvelope {
 			messages.add("Could not parse segment delimiter!");
 		}
 		
-		if (!messages.isEmpty()) {
-			throw new InvalidX12MessageException(formatErrorMessages(messages));
-		}
-		
-		messages.addAll(this.getIsaHeader().validate());
-		messages.addAll(this.getIeaTrailer().validate());
-		for (X12FunctionalGroupEnvelope gsEnvelope : this.getFunctionalGroupEnvelopes()) {
-			messages.addAll(gsEnvelope.validate());
-			for (X12TransactionSetEnvelope stEnvelope : gsEnvelope.getTransactionSetEnvelopes()) {
-				messages.addAll(stEnvelope.validate());
+		if (messages.isEmpty()) {
+			messages.addAll(this.getIsaHeader().validate());
+			messages.addAll(this.getIeaTrailer().validate());
+			
+			if (isaHeader.getIsa13() != null && ieaTrailer.getIea02() != null 
+					&& !isaHeader.getIsa13().equals(ieaTrailer.getIea02())) {
+				messages.addElement("Mismatched field: ISA13 <> IEA02!");
+			}
+			
+			for (X12FunctionalGroupEnvelope gsEnvelope : this.getFunctionalGroupEnvelopes()) {
+				messages.addAll(gsEnvelope.validate());
+				for (X12TransactionSetEnvelope stEnvelope : gsEnvelope.getTransactionSetEnvelopes()) {
+					messages.addAll(stEnvelope.validate());
+				}
 			}
 		}
-		
-		if (!messages.isEmpty()) {
-			throw new InvalidX12MessageException(formatErrorMessages(messages));
-		}
-	}
-	
-	private String formatErrorMessages(Vector<String> messages) {
-		StringBuffer sb = new StringBuffer();
-		if (!messages.isEmpty()) {
-			sb.append("Invalid message: [");
-			for (int i=0; i < messages.size()-1; i++) {
-				sb.append(messages.get(i));
-				sb.append(", ");
-			}
-			sb.append(messages.get(messages.size()));
-			sb.append("]");
-		}
-		return sb.toString();
+		return messages;
 	}
 }

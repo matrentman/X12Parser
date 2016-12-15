@@ -41,6 +41,11 @@ public class X12FunctionalGroupEnvelope {
 		messages.addAll(this.getGsHeader().validate());
 		messages.addAll(this.getGeTrailer().validate());
 		
+		if (gsHeader.getGs06() != null && geTrailer.getGe02() != null 
+				&& !gsHeader.getGs06().equals(geTrailer.getGe02())) {
+			messages.addElement("Mismatched field: GS06 <> GE02!");
+		}
+		
 		return messages;
 	}
 }

@@ -46,7 +46,7 @@ public class X12TransactionSetEnvelope {
 			messages.add("Mismatched field: ST02 <> SE02!");
 		}
 		if (this.getSegments()!=null && this.getSegments().size()+2 != Integer.parseInt(seTrailer.getSe01())) {
-			messages.addElement("Mismatched field: SE01 does not match actual number of transaction set segments!");
+			messages.addElement("Mismatched field: SE01 does not match the actual number of transaction set segments!");
 		}
 		
 		return messages;

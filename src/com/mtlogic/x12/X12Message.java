@@ -37,7 +37,13 @@ public class X12Message {
 	}
 	
 	public void validate() throws InvalidX12MessageException {
-		interchangeControlList.get(0).validate();
+		Vector<String> messages = new Vector<String>();
+		for (X12InterchangeControlEnvelope isaEnvelope : this.getInterchangeControlList()) {
+			messages.addAll(isaEnvelope.validate());
+		}
+		if (!messages.isEmpty()) {
+			throw new InvalidX12MessageException(formatErrorMessages(messages));
+		}
 	}
 	
 	public String print() {
@@ -89,5 +95,18 @@ public class X12Message {
 		sb.append(interchangeControlList.get(0).getIeaTrailer().toString());
 		return sb.toString();
 	}
-
+	
+	private String formatErrorMessages(Vector<String> messages) {
+		StringBuffer sb = new StringBuffer();
+		if (!messages.isEmpty()) {
+			sb.append("Invalid message: [");
+			for (int i=0; i < messages.size()-1; i++) {
+				sb.append(messages.get(i));
+				sb.append(", ");
+			}
+			sb.append(messages.get(messages.size()));
+			sb.append("]");
+		}
+		return sb.toString();
+	}
 }
