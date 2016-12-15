@@ -36,8 +36,8 @@ public class X12Message {
 		this.interchangeControlList = interchangeControlList;
 	}
 	
-	public void validate() {
-		
+	public void validate() throws InvalidX12MessageException {
+		interchangeControlList.get(0).validate();
 	}
 	
 	public String print() {

@@ -1,5 +1,7 @@
 package com.mtlogic.x12;
 
+import java.util.Vector;
+
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12GSHeader {
@@ -119,6 +121,62 @@ public class X12GSHeader {
 				+ this.gs03 + elementDelimiter + this.gs04 + elementDelimiter + this.gs05 
 				+ elementDelimiter + this.gs06 + elementDelimiter + this.gs07 + elementDelimiter 
 				+ this.gs08 + this.segmentDelimiter;
+	}
+	
+	public Vector<String> validate()  {
+		Vector<String> messages = new Vector<String>();
+		
+		if (gs01 == null || gs01.isEmpty()) {
+			messages.add("Missing field: GS01!");
+		}
+		if (gs02 == null || gs02.isEmpty()) {
+			messages.add("Missing field: GS02!");
+		}
+		if (gs03 == null || gs03.isEmpty()) {
+			messages.add("Missing field: GS03!");
+		}
+		if (gs04 == null || gs04.isEmpty()) {
+			messages.add("Missing field: GS04!");
+		}
+		if (gs05 == null || gs05.isEmpty()) {
+			messages.add("Missing field: GS05!");
+		}
+		if (gs06 == null || gs06.isEmpty()) {
+			messages.add("Missing field: GS06!");
+		}
+		if (gs07 == null || gs07.isEmpty()) {
+			messages.add("Missing field: GS07!");
+		}
+		if (gs08 == null || gs08.isEmpty()) {
+			messages.add("Missing field: GS08!");
+		}
+		
+		if (gs01 != null && gs01.length() != 2) {
+			messages.add("Invalid field length: GS01!");
+		}
+		if (gs02 != null && (gs02.length() < 2 || gs02.length() > 15)) {
+			messages.add("Invalid field length: GS02!");
+		}
+		if (gs03 != null && (gs03.length() < 2 || gs03.length() > 15)) {
+			messages.add("Invalid field length: GS03!");
+		}
+		if (gs04 != null && gs04.length() != 8) {
+			messages.add("Invalid field length: GS04!");
+		}
+		if (gs05 != null && (gs05.length() < 4 || gs05.length() > 8)) {
+			messages.add("Invalid field length: GS05!");
+		}
+		if (gs06 != null && (gs06.length() < 1 || gs06.length() > 9)) {
+			messages.add("Invalid field length: GS06!");
+		}
+		if (gs07 != null && (gs07.length() < 1 || gs07.length() > 2)) {
+			messages.add("Invalid field length: GS07!");
+		}
+		if (gs08 != null && (gs08.length() < 1 || gs08.length() > 12)) {
+			messages.add("Invalid field length: GS08!");
+		}
+		
+		return messages;
 	}
 	
 }

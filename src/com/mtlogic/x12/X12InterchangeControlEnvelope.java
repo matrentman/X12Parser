@@ -81,4 +81,47 @@ public class X12InterchangeControlEnvelope {
 	public void setFunctionalGroupEnvelopes(Vector<X12FunctionalGroupEnvelope> functionalGroupEnvelopes) {
 		this.functionalGroupEnvelopes = functionalGroupEnvelopes;
 	}
+	
+	public void validate() throws InvalidX12MessageException {
+		Vector<String> messages = new Vector<String>();
+		
+		if (this.elementDelimiter == null || this.elementDelimiter.isEmpty()) {
+			messages.add("Could not parse element delimiter!");
+		}
+		if (this.subelementDelimiter == null || this.subelementDelimiter.isEmpty()) {
+			messages.add("Could not parse subelement delimiter!");
+		}
+		if (this.segmentDelimiter == null || this.segmentDelimiter.isEmpty()) {
+			messages.add("Could not parse segment delimiter!");
+		}
+		
+		if (!messages.isEmpty()) {
+			throw new InvalidX12MessageException(formatErrorMessages(messages));
+		}
+		
+		messages.addAll(this.getIsaHeader().validate());
+		//messages.addAll(this.getIeaTrailer().validate());
+		for (int i=0; i < this.getFunctionalGroupEnvelopes().size(); i++) {
+			messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGsHeader().validate());
+			//messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGeTrailer().validate());
+			for (int j=0; j < this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().size(); j++) {
+				messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getStHeader().validate());
+				//messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getSeTrailer().validate());
+			}
+		}
+	}
+	
+	private String formatErrorMessages(Vector<String> messages) {
+		StringBuffer sb = new StringBuffer();
+		if (!messages.isEmpty()) {
+			sb.append("Invalid message: [");
+			for (int i=0; i < messages.size()-1; i++) {
+				sb.append(messages.get(i));
+				sb.append(", ");
+			}
+			sb.append(messages.get(messages.size()));
+			sb.append("]");
+		}
+		return sb.toString();
+	}
 }

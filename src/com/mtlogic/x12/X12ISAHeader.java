@@ -1,5 +1,7 @@
 package com.mtlogic.x12;
 
+import java.util.Vector;
+
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12ISAHeader {
@@ -257,6 +259,110 @@ public class X12ISAHeader {
 		sb.append(segmentDelimiter);
 		
 		return sb.toString();
+	}
+	
+	public Vector<String> validate()  {
+		Vector<String> messages = new Vector<String>();
+		
+		if (isa01 == null || isa01.isEmpty()) {
+			messages.add("Missing field: ISA01!");
+		}
+		if (isa02 == null || isa02.isEmpty()) {
+			messages.add("Missing field: ISA02!");
+		}
+		if (isa03 == null || isa03.isEmpty()) {
+			messages.add("Missing field: ISA03!");
+		}
+		if (isa04 == null || isa04.isEmpty()) {
+			messages.add("Missing field: ISA04!");
+		}
+		if (isa05 == null || isa05.isEmpty()) {
+			messages.add("Missing field: ISA05!");
+		}
+		if (isa06 == null || isa06.isEmpty()) {
+			messages.add("Missing field: ISA06!");
+		}
+		if (isa07 == null || isa07.isEmpty()) {
+			messages.add("Missing field: ISA07!");
+		}
+		if (isa08 == null || isa08.isEmpty()) {
+			messages.add("Missing field: ISA08!");
+		}
+		if (isa09 == null || isa09.isEmpty()) {
+			messages.add("Missing field: ISA09!");
+		}
+		if (isa10 == null || isa10.isEmpty()) {
+			messages.add("Missing field: ISA10!");
+		}
+		if (isa11 == null || isa11.isEmpty()) {
+			messages.add("Missing field: ISA11!");
+		}
+		if (isa12 == null || isa12.isEmpty()) {
+			messages.add("Missing field: ISA12!");
+		}
+		if (isa13 == null || isa13.isEmpty()) {
+			messages.add("Missing field: ISA13!");
+		}
+		if (isa14 == null || isa14.isEmpty()) {
+			messages.add("Missing field: ISA14!");
+		}
+		if (isa15 == null || isa15.isEmpty()) {
+			messages.add("Missing field: ISA15!");
+		}
+		if (isa16 == null || isa16.isEmpty()) {
+			messages.add("Missing field: ISA16!");
+		}
+		
+		if (isa01 != null && isa01.length() != 2) {
+			messages.add("Invalid field length: ISA01!");
+		}
+		if (isa02 != null && isa02.length() != 10) {
+			messages.add("Invalid field length: ISA02!");
+		}
+		if (isa03 != null && isa03.length() != 2) {
+			messages.add("Invalid field length: ISA03!");
+		}
+		if (isa04 != null && isa04.length() != 10) {
+			messages.add("Invalid field length: ISA04!");
+		}
+		if (isa05 != null && isa05.length() != 2) {
+			messages.add("Invalid field length: ISA05!");
+		}
+		if (isa06 != null && isa06.length() != 15) {
+			messages.add("Invalid field length: ISA06!");
+		}
+		if (isa07 != null && isa07.length() != 2) {
+			messages.add("Invalid field length: ISA07!");
+		}
+		if (isa08 != null && isa08.length() != 15) {
+			messages.add("Invalid field length: ISA08!");
+		}
+		if (isa09 != null && isa09.length() != 6) {
+			messages.add("Invalid field length: ISA09!");
+		}
+		if (isa10 != null && isa10.length() != 4) {
+			messages.add("Invalid field length: ISA10!");
+		}
+		if (isa11 != null && isa11.length() != 1) {
+			messages.add("Invalid field length: ISA11!");
+		}
+		if (isa12 != null && isa12.length() != 5) {
+			messages.add("Invalid field length: ISA12!");
+		}
+		if (isa13 != null && isa13.length() != 9) {
+			messages.add("Invalid field length: ISA13!");
+		}
+		if (isa14 != null && isa14.length() != 1) {
+			messages.add("Invalid field length: ISA14!");
+		}
+		if (isa15 != null && isa15.length() != 1) {
+			messages.add("Invalid field length: ISA15!");
+		}
+		if (isa16 != null && isa16.length() != 1) {
+			messages.add("Invalid field length: ISA16!");
+		}
+		
+		return messages;
 	}
 	
 }

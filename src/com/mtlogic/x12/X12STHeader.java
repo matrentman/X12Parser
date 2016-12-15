@@ -1,5 +1,7 @@
 package com.mtlogic.x12;
 
+import java.util.Vector;
+
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12STHeader {
@@ -68,4 +70,29 @@ public class X12STHeader {
 		return this.name + elementDelimiter + this.st01 + elementDelimiter + this.st02 + elementDelimiter + this.st03 + this.segmentDelimiter;
 	}
 	
+	public Vector<String> validate()  {
+		Vector<String> messages = new Vector<String>();
+		
+		if (st01 == null || st01.isEmpty()) {
+			messages.add("Missing field: ST01!");
+		}
+		if (st02 == null || st02.isEmpty()) {
+			messages.add("Missing field: ST02!");
+		}
+		if (st03 == null || st03.isEmpty()) {
+			messages.add("Missing field: ST03!");
+		}
+		
+		if (st01 != null && st01.length() != 3) {
+			messages.add("Invalid field length: ST01!");
+		}
+		if (st02 != null && (st02.length() < 4 || st02.length() > 9)) {
+			messages.add("Invalid field length: ST02!");
+		}
+		if (st03 != null && (st03.length() < 1 || st03.length() > 35)) {
+			messages.add("Invalid field length: ST03!");
+		}
+		
+		return messages;
+	}
 }
