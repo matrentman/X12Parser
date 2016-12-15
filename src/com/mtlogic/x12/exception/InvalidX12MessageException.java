@@ -1,4 +1,4 @@
-package com.mtlogic.exception;
+package com.mtlogic.x12.exception;
 
 public class InvalidX12MessageException extends Exception {
 	public InvalidX12MessageException(String message) {

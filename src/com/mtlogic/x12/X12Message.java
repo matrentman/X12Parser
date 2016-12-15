@@ -1,8 +1,8 @@
-package com.mtlogic;
+package com.mtlogic.x12;
 
 import java.util.Vector;
 
-import com.mtlogic.exception.InvalidX12MessageException;
+import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12Message {
 	public static final int REPETITION_DELIMITER_PS = 82;
@@ -41,7 +41,7 @@ public class X12Message {
 	String version;
 	Vector<String> errorMessages;
 	
-	X12Message(String data) throws InvalidX12MessageException {
+	public X12Message(String data) throws InvalidX12MessageException {
 		errorMessages = preValidate(data);
 		if (!errorMessages.isEmpty()) {
 			throw new InvalidX12MessageException(buildExceptionMessage());
@@ -57,29 +57,34 @@ public class X12Message {
 			isaEnvelope = new X12Envelope();
 			
 			String[] parsedSegments = data.split(segmentDelimiter);
-			X12Segment segment = null;
-			X12Container container = null;
-			for (String str : parsedSegments) {
-	            if (str.startsWith(ISA + elementDelimiter)) {
-	            	segment = new X12Segment(str, elementDelimiter);
-	            	isaEnvelope.setStartingSegment(segment);
-	            } else if (str.startsWith(IEA + elementDelimiter)) {
-	            	segment = new X12Segment(str, elementDelimiter);
-	            	isaEnvelope.setEndingSegment(segment);
-	            } else if (str.startsWith(GS + elementDelimiter)) {
-	            	segment = new X12Segment(str, elementDelimiter);
-	            	container = new X12Container();
-	            	container.setSegmentDelimiter(segmentDelimiter);
-	            	container.getEnvelope().setSegmentDelimiter(segmentDelimiter);
-	            	container.getEnvelope().setStartingSegment(segment);
-	            } else if (str.startsWith(GE + elementDelimiter)) {
-	            	segment = new X12Segment(str, elementDelimiter);
-	            	container.getEnvelope().setEndingSegment(segment);
-	            	containers.add(container);
-	            } else {
-	            	segment = new X12Segment(str, elementDelimiter);
-	            	container.getSegments().add(segment);
-	            }
+			if ((parsedSegments[0].startsWith(ISA + elementDelimiter))) {
+				X12Segment segment = null;
+				X12Container container = null;
+				for (String str : parsedSegments) {
+		            if (str.startsWith(ISA + elementDelimiter)) {
+		            	segment = new X12Segment(str, elementDelimiter);
+		            	isaEnvelope.setStartingSegment(segment);
+		            } else if (str.startsWith(IEA + elementDelimiter)) {
+		            	segment = new X12Segment(str, elementDelimiter);
+		            	isaEnvelope.setEndingSegment(segment);
+		            } else if (str.startsWith(GS + elementDelimiter)) {
+		            	segment = new X12Segment(str, elementDelimiter);
+		            	container = new X12Container();
+		            	container.setSegmentDelimiter(segmentDelimiter);
+		            	container.getEnvelope().setSegmentDelimiter(segmentDelimiter);
+		            	container.getEnvelope().setStartingSegment(segment);
+		            } else if (str.startsWith(GE + elementDelimiter)) {
+		            	segment = new X12Segment(str, elementDelimiter);
+		            	container.getEnvelope().setEndingSegment(segment);
+		            	containers.add(container);
+		            } else {
+		            	segment = new X12Segment(str, elementDelimiter);
+		            	container.getSegments().add(segment);
+		            }
+				}
+			} else {
+				errorMessages.add("Could not parse ISA segment!");
+				throw new InvalidX12MessageException(buildExceptionMessage());
 			}
 			
 			errorMessages.addAll(postValidate());
@@ -193,10 +198,11 @@ public class X12Message {
 	private String buildExceptionMessage() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Invalid message - [");
-		for (String message : errorMessages) {
-			sb.append(message);
+		for (int i = 0; i < errorMessages.size()-1; i++) {
+			sb.append(errorMessages.get(i));
 			sb.append("|");
 		}
+		sb.append(errorMessages.get(errorMessages.size()-1));
 		sb.append("]");
 		
 		return sb.toString();

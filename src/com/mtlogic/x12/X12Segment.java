@@ -1,4 +1,4 @@
-package com.mtlogic;
+package com.mtlogic.x12;
 
 public class X12Segment {
 	private String name;
@@ -50,6 +50,7 @@ public class X12Segment {
 			sb.append(delimiter);
 		}
 		sb.append(elements[elements.length - 1]);
+		sb.append("~");
 		return sb.toString();
 	}
 	

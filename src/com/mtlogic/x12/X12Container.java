@@ -1,4 +1,4 @@
-package com.mtlogic;
+package com.mtlogic.x12;
 
 import java.util.Vector;
 
