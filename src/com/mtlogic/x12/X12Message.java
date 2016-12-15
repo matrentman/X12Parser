@@ -23,6 +23,7 @@ public class X12Message {
 	Vector<X12InterchangeControlEnvelope> interchangeControlList;
 
 	public X12Message(String data) throws InvalidX12MessageException {
+		preValidate(data);
 		X12InterchangeControlEnvelope interchangeControlEnvelope = new X12InterchangeControlEnvelope(data);
 		interchangeControlList = new Vector<X12InterchangeControlEnvelope>();
 		interchangeControlList.add(interchangeControlEnvelope);
@@ -104,9 +105,15 @@ public class X12Message {
 				sb.append(messages.get(i));
 				sb.append(", ");
 			}
-			sb.append(messages.get(messages.size()));
+			sb.append(messages.get(messages.size()-1));
 			sb.append("]");
 		}
 		return sb.toString();
+	}
+	
+	private void preValidate(String data) throws InvalidX12MessageException {
+		if (!data.startsWith(ISA)) {
+			throw new InvalidX12MessageException("Missing ISA segment!");
+		}
 	}
 }

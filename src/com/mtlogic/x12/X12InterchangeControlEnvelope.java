@@ -94,6 +94,12 @@ public class X12InterchangeControlEnvelope {
 		if (this.segmentDelimiter == null || this.segmentDelimiter.isEmpty()) {
 			messages.add("Could not parse segment delimiter!");
 		}
+		if (this.getIsaHeader() == null) {
+			messages.add("Could not parse ISA segment!");
+		}
+		if (this.getIeaTrailer() == null) {
+			messages.add("Could not parse IEA segment!");
+		}
 		
 		if (messages.isEmpty()) {
 			messages.addAll(this.getIsaHeader().validate());

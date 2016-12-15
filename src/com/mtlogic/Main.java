@@ -18,6 +18,8 @@ public class Main {
 		try {
 			X12Message x12Message = new X12Message(msg276);
 	
+			x12Message.validate();
+			
 			System.out.println("\nResult of calling X12Message.print()...");
 			System.out.println(x12Message.print());
 			
