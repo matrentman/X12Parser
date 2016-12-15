@@ -54,6 +54,10 @@ public class X12STHeader {
 		return name;
 	}
 	
+	public String print() {
+		return toString() + "\n";
+	}
+	
 	public String toString() {
 		return this.name + elementDelimiter + this.st01 + elementDelimiter + this.st02 + elementDelimiter + this.st03 + this.segmentDelimiter;
 	}

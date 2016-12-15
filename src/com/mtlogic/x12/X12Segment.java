@@ -43,6 +43,10 @@ public class X12Segment {
 		this.elements = elements;
 	}
 	
+	public String print() {
+		return toString() + "\n";
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < elements.length - 1; i++) {

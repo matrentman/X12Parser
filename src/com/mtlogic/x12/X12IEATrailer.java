@@ -50,6 +50,10 @@ public class X12IEATrailer {
 		return name;
 	}
 	
+	public String print() {
+		return toString() + "\n";
+	}
+	
 	public String toString() {
 		return this.name + elementDelimiter + this.iea01 + elementDelimiter + this.iea02 
 				+ this.segmentDelimiter;

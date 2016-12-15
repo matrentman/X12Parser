@@ -94,6 +94,10 @@ public class X12GSHeader {
 		return name;
 	}
 	
+	public String print() {
+		return toString() + "\n";
+	}
+	
 	public String toString() {
 		return this.name + elementDelimiter + this.gs01 + elementDelimiter + this.gs02 + elementDelimiter 
 				+ this.gs03 + elementDelimiter + this.gs04 + elementDelimiter + this.gs05 

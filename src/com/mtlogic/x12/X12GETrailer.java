@@ -66,6 +66,10 @@ public class X12GETrailer {
 		return name;
 	}
 	
+	public String print() {
+		return toString() + "\n";
+	}
+	
 	public String toString() {
 		return this.name + elementDelimiter + this.ge01 + elementDelimiter + this.ge02 
 				+ this.segmentDelimiter;

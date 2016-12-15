@@ -37,7 +37,25 @@ public class X12Message1 {
 	}
 	
 	public String print() {
-		return "print";
+		StringBuffer sb = new StringBuffer();
+		sb.append(interchangeControlList.get(0).getIsaHeader().print());
+		for (X12FunctionalGroupEnvelope gsEnvelope : interchangeControlList.get(0).getFunctionalGroupEnvelopes()) {
+			sb.append(gsEnvelope.getGsHeader().print());
+			
+			for (X12TransactionSetEnvelope stEnvelope : interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes()) {
+				sb.append(stEnvelope.getStHeader().print());
+				
+				for (X12Segment segment : interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(0).getSegments()) {
+					sb.append(segment.print());
+				}
+				
+				sb.append(stEnvelope.getSeTrailer().print());
+			}
+			
+			sb.append(gsEnvelope.getGeTrailer().print());
+		}
+		sb.append(interchangeControlList.get(0).getIeaTrailer().print());
+		return sb.toString();
 	}
 	
 	public String toString() {

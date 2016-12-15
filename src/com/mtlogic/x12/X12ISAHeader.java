@@ -176,14 +176,49 @@ public class X12ISAHeader {
 		return name;
 	}
 	
+	public String print() {
+		return toString() + "\n";
+	}
+	
 	public String toString() {
-		return this.name + elementDelimiter + this.isa01 + elementDelimiter + this.isa02 + elementDelimiter 
-				+ this.isa03 + elementDelimiter + this.isa04 + elementDelimiter + this.isa05 
-				+ elementDelimiter + this.isa06 + elementDelimiter + this.isa07 + elementDelimiter 
-				+ this.isa08 + elementDelimiter + this.isa09 + elementDelimiter + this.isa10 
-				+ elementDelimiter + this.isa11 + elementDelimiter + this.isa12 + elementDelimiter + 
-				this.isa13 + elementDelimiter + this.isa14 + elementDelimiter + this.isa15 
-				+ elementDelimiter + this.isa16 + this.segmentDelimiter;
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(this.name);
+		sb.append(elementDelimiter);
+		sb.append(this.isa01);
+		sb.append(elementDelimiter);
+		sb.append(this.isa02);
+		sb.append(elementDelimiter);
+		sb.append(this.isa03);
+		sb.append(elementDelimiter);
+		sb.append(this.isa04);
+		sb.append(elementDelimiter);
+		sb.append(this.isa05);
+		sb.append(elementDelimiter);
+		sb.append(this.isa06);
+		sb.append(elementDelimiter);
+		sb.append(this.isa07);
+		sb.append(elementDelimiter);
+		sb.append(this.isa08);
+		sb.append(elementDelimiter);
+		sb.append(this.isa09);
+		sb.append(elementDelimiter);
+		sb.append(this.isa10);
+		sb.append(elementDelimiter);
+		sb.append(this.isa11);
+		sb.append(elementDelimiter);
+		sb.append(this.isa12);
+		sb.append(elementDelimiter);
+		sb.append(this.isa13);
+		sb.append(elementDelimiter);
+		sb.append(this.isa14);
+		sb.append(elementDelimiter);
+		sb.append(this.isa15);
+		sb.append(elementDelimiter);
+		sb.append(this.isa16);
+		sb.append(segmentDelimiter);
+		
+		return sb.toString();
 	}
 	
 }

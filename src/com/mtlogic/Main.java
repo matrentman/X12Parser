@@ -20,7 +20,7 @@ public class Main {
 			X12Message1 x12Message = new X12Message1(msg276);
 	
 			System.out.println("\nResult of calling X12Message.print()...");
-			x12Message.print();
+			System.out.println(x12Message.print());
 			
 			System.out.println("\nResult of calling X12Message.toString()...");
 			System.out.println(x12Message.toString());
