@@ -36,16 +36,23 @@ public class X12Message {
 		this.interchangeControlList = interchangeControlList;
 	}
 	
+	public void validate() {
+		
+	}
+	
 	public String print() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(interchangeControlList.get(0).getIsaHeader().print());
-		for (X12FunctionalGroupEnvelope gsEnvelope : interchangeControlList.get(0).getFunctionalGroupEnvelopes()) {
+		for (int i=0; i < interchangeControlList.get(0).getFunctionalGroupEnvelopes().size(); i++) {
+			X12FunctionalGroupEnvelope gsEnvelope = interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(i);
+			
 			sb.append(gsEnvelope.getGsHeader().print());
 			
-			for (X12TransactionSetEnvelope stEnvelope : interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes()) {
+			for (int j=0; j < interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().size(); j++) {
+				X12TransactionSetEnvelope stEnvelope = interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(j);
 				sb.append(stEnvelope.getStHeader().print());
 				
-				for (X12Segment segment : interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(0).getSegments()) {
+				for (X12Segment segment : stEnvelope.getSegments()) {
 					sb.append(segment.print());
 				}
 				
@@ -61,13 +68,16 @@ public class X12Message {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(interchangeControlList.get(0).getIsaHeader().toString());
-		for (X12FunctionalGroupEnvelope gsEnvelope : interchangeControlList.get(0).getFunctionalGroupEnvelopes()) {
+		for (int i=0; i < interchangeControlList.get(0).getFunctionalGroupEnvelopes().size(); i++) {
+			X12FunctionalGroupEnvelope gsEnvelope = interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(i);
+			
 			sb.append(gsEnvelope.getGsHeader().toString());
 			
-			for (X12TransactionSetEnvelope stEnvelope : interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes()) {
+			for (int j=0; j < interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().size(); j++) {
+				X12TransactionSetEnvelope stEnvelope = interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(j);
 				sb.append(stEnvelope.getStHeader().toString());
 				
-				for (X12Segment segment : interchangeControlList.get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(0).getSegments()) {
+				for (X12Segment segment : stEnvelope.getSegments()) {
 					sb.append(segment.toString());
 				}
 				
