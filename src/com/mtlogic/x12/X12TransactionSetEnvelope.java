@@ -34,4 +34,21 @@ public class X12TransactionSetEnvelope {
 	public void setSegments(Vector<X12Segment> segments) {
 		this.segments = segments;
 	}
+	
+	public Vector<String> validate() {
+		Vector<String> messages = new Vector<String>();
+		
+		messages.addAll(this.getStHeader().validate());
+		messages.addAll(this.getSeTrailer().validate());
+		
+		if (stHeader != null && seTrailer != null && stHeader.getSt02() != null 
+				&& seTrailer.getSe02() != null && !stHeader.getSt02().equals(seTrailer.getSe02())) {
+			messages.add("Mismatched field: ST02 <> SE02!");
+		}
+		if (this.getSegments()!=null && this.getSegments().size()+2 != Integer.parseInt(seTrailer.getSe01())) {
+			messages.addElement("Mismatched field: SE01 does not match actual number of transaction set segments!");
+		}
+		
+		return messages;
+	}
 }

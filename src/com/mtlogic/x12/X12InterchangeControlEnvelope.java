@@ -101,12 +101,10 @@ public class X12InterchangeControlEnvelope {
 		
 		messages.addAll(this.getIsaHeader().validate());
 		messages.addAll(this.getIeaTrailer().validate());
-		for (int i=0; i < this.getFunctionalGroupEnvelopes().size(); i++) {
-			messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGsHeader().validate());
-			messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGeTrailer().validate());
-			for (int j=0; j < this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().size(); j++) {
-				messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getStHeader().validate());
-				messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getSeTrailer().validate());
+		for (X12FunctionalGroupEnvelope gsEnvelope : this.getFunctionalGroupEnvelopes()) {
+			messages.addAll(gsEnvelope.validate());
+			for (X12TransactionSetEnvelope stEnvelope : gsEnvelope.getTransactionSetEnvelopes()) {
+				messages.addAll(stEnvelope.validate());
 			}
 		}
 		

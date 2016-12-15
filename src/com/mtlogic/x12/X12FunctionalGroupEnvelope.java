@@ -34,4 +34,13 @@ public class X12FunctionalGroupEnvelope {
 	public void setTransactionSetEnvelopes(Vector<X12TransactionSetEnvelope> transactionSetEnvelopes) {
 		this.transactionSetEnvelopes = transactionSetEnvelopes;
 	}
+	
+	public Vector<String> validate() {
+		Vector<String> messages = new Vector<String>();
+		
+		messages.addAll(this.getGsHeader().validate());
+		messages.addAll(this.getGeTrailer().validate());
+		
+		return messages;
+	}
 }
