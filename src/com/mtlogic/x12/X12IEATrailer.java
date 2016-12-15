@@ -1,5 +1,7 @@
 package com.mtlogic.x12;
 
+import java.util.Vector;
+
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12IEATrailer {
@@ -57,6 +59,26 @@ public class X12IEATrailer {
 	public String toString() {
 		return this.name + elementDelimiter + this.iea01 + elementDelimiter + this.iea02 
 				+ this.segmentDelimiter;
+	}
+	
+	public Vector<String> validate()  {
+		Vector<String> messages = new Vector<String>();
+		
+		if (iea01 == null || iea01.isEmpty()) {
+			messages.add("Missing field: IEA01!");
+		}
+		if (iea02 == null || iea02.isEmpty()) {
+			messages.add("Missing field: IEA02!");
+		}
+		
+		if (iea01 != null && (iea01.length() <1 || iea01.length() > 5)) {
+			messages.add("Invalid field length: IEA01!");
+		}
+		if (iea02 != null && iea02.length() != 9) {
+			messages.add("Invalid field length: IeA02!");
+		}
+		
+		return messages;
 	}
 
 }

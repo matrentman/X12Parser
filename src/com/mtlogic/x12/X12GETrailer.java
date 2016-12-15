@@ -1,5 +1,7 @@
 package com.mtlogic.x12;
 
+import java.util.Vector;
+
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12GETrailer {
@@ -75,5 +77,23 @@ public class X12GETrailer {
 				+ this.segmentDelimiter;
 	}
 	
-	
+	public Vector<String> validate()  {
+		Vector<String> messages = new Vector<String>();
+		
+		if (ge01 == null || ge01.isEmpty()) {
+			messages.add("Missing field: GE01!");
+		}
+		if (ge02 == null || ge02.isEmpty()) {
+			messages.add("Missing field: GE02!");
+		}
+		
+		if (ge01 != null && (ge01.length() < 1 || ge01.length() > 6)) {
+			messages.add("Invalid field length: GE01!");
+		}
+		if (ge02 != null && (ge02.length() < 1 || ge02.length() > 9)) {
+			messages.add("Invalid field length: GE02!");
+		}
+		
+		return messages;
+	}
 }

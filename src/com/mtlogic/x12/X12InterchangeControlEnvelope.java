@@ -100,14 +100,18 @@ public class X12InterchangeControlEnvelope {
 		}
 		
 		messages.addAll(this.getIsaHeader().validate());
-		//messages.addAll(this.getIeaTrailer().validate());
+		messages.addAll(this.getIeaTrailer().validate());
 		for (int i=0; i < this.getFunctionalGroupEnvelopes().size(); i++) {
 			messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGsHeader().validate());
-			//messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGeTrailer().validate());
+			messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getGeTrailer().validate());
 			for (int j=0; j < this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().size(); j++) {
 				messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getStHeader().validate());
-				//messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getSeTrailer().validate());
+				messages.addAll(this.getFunctionalGroupEnvelopes().get(i).getTransactionSetEnvelopes().get(j).getSeTrailer().validate());
 			}
+		}
+		
+		if (!messages.isEmpty()) {
+			throw new InvalidX12MessageException(formatErrorMessages(messages));
 		}
 	}
 	
