@@ -27,27 +27,27 @@ public class X12InterchangeControlEnvelope {
 		X12FunctionalGroupEnvelope gsEnvelope = null;
 		X12TransactionSetEnvelope stEnvelope = null;
 		String[] parsedSegments = data.split(segmentDelimiter);
-		if ((parsedSegments[0].startsWith(X12Message1.ISA + elementDelimiter))) {
+		if ((parsedSegments[0].startsWith(X12Message.ISA + elementDelimiter))) {
 			X12Segment segment = null;
 			for (String str : parsedSegments) {
-	            if (str.startsWith(X12Message1.ISA + elementDelimiter)) {
+	            if (str.startsWith(X12Message.ISA + elementDelimiter)) {
 	            	isaHeader = new X12ISAHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            } else if (str.startsWith(X12Message1.IEA + elementDelimiter)) {
+	            } else if (str.startsWith(X12Message.IEA + elementDelimiter)) {
 	            	ieaTrailer = new X12IEATrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            } else if (str.startsWith(X12Message1.GS + elementDelimiter)) {
+	            } else if (str.startsWith(X12Message.GS + elementDelimiter)) {
 	            	gsEnvelope = new X12FunctionalGroupEnvelope();
 	            	X12GSHeader gsHeader = new X12GSHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	gsEnvelope.setGsHeader(gsHeader);
-	            } else if (str.startsWith(X12Message1.GE + elementDelimiter)) {
+	            } else if (str.startsWith(X12Message.GE + elementDelimiter)) {
 	            	X12GETrailer geTrailer = new X12GETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	gsEnvelope.setGeTrailer(geTrailer);
 	            	gsEnvelope.getTransactionSetEnvelopes().add(stEnvelope);
 	            	functionalGroupEnvelopes.add(gsEnvelope);
-	            } else if (str.startsWith(X12Message1.ST + elementDelimiter)) {
+	            } else if (str.startsWith(X12Message.ST + elementDelimiter)) {
 	            	stEnvelope = new X12TransactionSetEnvelope();
 	            	X12STHeader stHeader = new X12STHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	stEnvelope.setStHeader(stHeader);
-	            } else if (str.startsWith(X12Message1.SE + elementDelimiter)) {
+	            } else if (str.startsWith(X12Message.SE + elementDelimiter)) {
 	            	X12SETrailer seTrailer = new X12SETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	stEnvelope.setSeTrailer(seTrailer);
 	            } else {
@@ -61,18 +61,23 @@ public class X12InterchangeControlEnvelope {
 	public X12ISAHeader getIsaHeader() {
 		return isaHeader;
 	}
+	
 	public void setIsaHeader(X12ISAHeader isaHeader) {
 		this.isaHeader = isaHeader;
 	}
+	
 	public X12IEATrailer getIeaTrailer() {
 		return ieaTrailer;
 	}
+	
 	public void setIeaTrailer(X12IEATrailer ieaTrailer) {
 		this.ieaTrailer = ieaTrailer;
 	}
+	
 	public Vector<X12FunctionalGroupEnvelope> getFunctionalGroupEnvelopes() {
 		return functionalGroupEnvelopes;
 	}
+	
 	public void setFunctionalGroupEnvelopes(Vector<X12FunctionalGroupEnvelope> functionalGroupEnvelopes) {
 		this.functionalGroupEnvelopes = functionalGroupEnvelopes;
 	}

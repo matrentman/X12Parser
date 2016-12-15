@@ -14,18 +14,23 @@ public class X12FunctionalGroupEnvelope {
 	public X12GSHeader getGsHeader() {
 		return gsHeader;
 	}
+	
 	public void setGsHeader(X12GSHeader gsHeader) {
 		this.gsHeader = gsHeader;
 	}
+	
 	public X12GETrailer getGeTrailer() {
 		return geTrailer;
 	}
+	
 	public void setGeTrailer(X12GETrailer geTrailer) {
 		this.geTrailer = geTrailer;
 	}
+	
 	public Vector<X12TransactionSetEnvelope> getTransactionSetEnvelopes() {
 		return transactionSetEnvelopes;
 	}
+	
 	public void setTransactionSetEnvelopes(Vector<X12TransactionSetEnvelope> transactionSetEnvelopes) {
 		this.transactionSetEnvelopes = transactionSetEnvelopes;
 	}

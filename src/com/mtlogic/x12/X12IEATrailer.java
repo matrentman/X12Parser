@@ -12,7 +12,7 @@ public class X12IEATrailer {
 	
 	public X12IEATrailer(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message1.IEA) 
+		if (data != null && !data.isEmpty() && data.startsWith(X12Message.IEA) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;

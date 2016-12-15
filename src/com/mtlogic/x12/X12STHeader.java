@@ -13,7 +13,7 @@ public class X12STHeader {
 	
 	public X12STHeader(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message1.ST) 
+		if (data != null && !data.isEmpty() && data.startsWith(X12Message.ST) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;
@@ -35,21 +35,27 @@ public class X12STHeader {
 	public String getSt01() {
 		return st01;
 	}
+	
 	public void setSt01(String st01) {
 		this.st01 = st01;
 	}
+	
 	public String getSt02() {
 		return st02;
 	}
+	
 	public void setSt02(String st02) {
 		this.st02 = st02;
 	}
+	
 	public String getSt03() {
 		return st03;
 	}
+	
 	public void setSt03(String st03) {
 		this.st03 = st03;
 	}
+	
 	public String getName() {
 		return name;
 	}

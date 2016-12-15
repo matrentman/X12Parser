@@ -14,18 +14,23 @@ public class X12TransactionSetEnvelope {
 	public X12STHeader getStHeader() {
 		return stHeader;
 	}
+	
 	public void setStHeader(X12STHeader stHeader) {
 		this.stHeader = stHeader;
 	}
+	
 	public X12SETrailer getSeTrailer() {
 		return seTrailer;
 	}
+	
 	public void setSeTrailer(X12SETrailer seTrailer) {
 		this.seTrailer = seTrailer;
 	}
+	
 	public Vector<X12Segment> getSegments() {
 		return segments;
 	}
+	
 	public void setSegments(Vector<X12Segment> segments) {
 		this.segments = segments;
 	}

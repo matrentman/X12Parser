@@ -12,7 +12,7 @@ public class X12GETrailer {
 	
 	public X12GETrailer(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message1.GE) 
+		if (data != null && !data.isEmpty() && data.startsWith(X12Message.GE) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;

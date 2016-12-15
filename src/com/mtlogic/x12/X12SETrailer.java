@@ -12,7 +12,7 @@ public class X12SETrailer {
 	
 	public X12SETrailer(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message1.SE) 
+		if (data != null && !data.isEmpty() && data.startsWith(X12Message.SE) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;
@@ -33,15 +33,19 @@ public class X12SETrailer {
 	public String getSe01() {
 		return se01;
 	}
+	
 	public void setSe01(String se01) {
 		this.se01 = se01;
 	}
+	
 	public String getSe02() {
 		return se02;
 	}
+	
 	public void setSe02(String se02) {
 		this.se02 = se02;
 	}
+	
 	public String getName() {
 		return name;
 	}
