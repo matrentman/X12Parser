@@ -4,12 +4,7 @@ import java.util.Vector;
 
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
-public class X12InterchangeControlEnvelope {
-	public static final int REPETITION_DELIMITER_PS = 82;
-	public static final int ELEMENT_DELIMITER_PS = 103;
-	public static final int SUB_ELEMENT_DELIMITER_PS = 104;
-	public static final int SEGMENT_DELIMITER_PS = 105;
-	
+public class X12InterchangeControlEnvelope extends X12Base {
 	String elementDelimiter;
 	String repetitionDelimiter;
 	String subelementDelimiter;
@@ -26,33 +21,47 @@ public class X12InterchangeControlEnvelope {
 		functionalGroupEnvelopes = new Vector<X12FunctionalGroupEnvelope>();
 		X12FunctionalGroupEnvelope gsEnvelope = null;
 		X12TransactionSetEnvelope stEnvelope = null;
+		if (!data.startsWith(ISA)) {
+			throw new InvalidX12MessageException("Invalid message: [Missing segment: ISA!]");
+		}
+		
 		String[] parsedSegments = data.split(segmentDelimiter);
-		if ((parsedSegments[0].startsWith(X12Message.ISA + elementDelimiter))) {
+		validateEnvelopes(parsedSegments);
+		
+		if ((parsedSegments[0].startsWith(ISA + elementDelimiter))) {
 			X12Segment segment = null;
 			for (String str : parsedSegments) {
-	            if (str.startsWith(X12Message.ISA + elementDelimiter)) {
+	            if (str.startsWith(ISA + elementDelimiter)) {
 	            	isaHeader = new X12ISAHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            } else if (str.startsWith(X12Message.IEA + elementDelimiter)) {
+	            } else if (str.startsWith(IEA + elementDelimiter)) {
 	            	ieaTrailer = new X12IEATrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            } else if (str.startsWith(X12Message.GS + elementDelimiter)) {
+	            } else if (str.startsWith(GS + elementDelimiter)) {
 	            	gsEnvelope = new X12FunctionalGroupEnvelope();
 	            	X12GSHeader gsHeader = new X12GSHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	gsEnvelope.setGsHeader(gsHeader);
-	            } else if (str.startsWith(X12Message.GE + elementDelimiter)) {
-	            	X12GETrailer geTrailer = new X12GETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            	gsEnvelope.setGeTrailer(geTrailer);
-	            	gsEnvelope.getTransactionSetEnvelopes().add(stEnvelope);
-	            	functionalGroupEnvelopes.add(gsEnvelope);
-	            } else if (str.startsWith(X12Message.ST + elementDelimiter)) {
+	            } else if (str.startsWith(GE + elementDelimiter)) {
+	            	if (gsEnvelope != null) {
+		            	X12GETrailer geTrailer = new X12GETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
+		            	gsEnvelope.setGeTrailer(geTrailer);
+		            	gsEnvelope.getTransactionSetEnvelopes().add(stEnvelope);
+		            	functionalGroupEnvelopes.add(gsEnvelope);
+	            	} else	{
+	            		throw new InvalidX12MessageException("Invalid message: [Missing segment: GS!]");
+	            	}
+	            } else if (str.startsWith(ST + elementDelimiter)) {
 	            	stEnvelope = new X12TransactionSetEnvelope();
 	            	X12STHeader stHeader = new X12STHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	stEnvelope.setStHeader(stHeader);
-	            } else if (str.startsWith(X12Message.SE + elementDelimiter)) {
+	            } else if (str.startsWith(SE + elementDelimiter)) {
 	            	X12SETrailer seTrailer = new X12SETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
 	            	stEnvelope.setSeTrailer(seTrailer);
 	            } else {
-	            	segment = new X12Segment(str, elementDelimiter);
-	            	stEnvelope.getSegments().add(segment);
+	            	if (stEnvelope != null) {
+	            		segment = new X12Segment(str, elementDelimiter);
+	            		stEnvelope.getSegments().add(segment);
+	            	} else {
+	            		throw new InvalidX12MessageException("Invalid message: [Missing segment: ST!]"); 
+	            	}
 	            }
 			}
 		} 
@@ -118,5 +127,69 @@ public class X12InterchangeControlEnvelope {
 			}
 		}
 		return messages;
+	}
+	
+	private void validateEnvelopes(String[] segments) throws InvalidX12MessageException {
+		int numISA = 0;
+		int numIEA = 0;
+		int numGS = 0;
+		int numGE = 0;
+		int numST = 0;
+		int numSE = 0;
+		Vector<String> messages = new Vector<String>();
+		
+		for (String segment : segments) {
+			if (segment.startsWith(ISA)) {
+				numISA++;
+			} else if (segment.startsWith(IEA)) {
+				numIEA++;
+			} else if (segment.startsWith(GS)) {
+				numGS++;
+			} else if (segment.startsWith(GE)) {
+				numGE++;
+			} else if (segment.startsWith(ST)) {
+				numST++;
+			} else if (segment.startsWith(SE)) {
+				numSE++;
+			}
+		}
+		
+		if (numISA != numIEA) {
+			messages.add("Missmatched segment: ISA/IEA");
+		}
+		if (numGS != numGE) {
+			messages.add("Missmatched segment: GS/GE");
+		}
+		if (numST != numSE) {
+			messages.add("Missmatched segment: ST/SE");
+		}
+		
+		if (!messages.isEmpty()) {
+			throw new InvalidX12MessageException(formatErrorMessages(messages));
+		}
+	}
+	
+	public String print() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(isaHeader.print());
+		for (int j=0; j < functionalGroupEnvelopes.size(); j++) {
+			X12FunctionalGroupEnvelope gsEnvelope = functionalGroupEnvelopes.get(j);
+			sb.append(gsEnvelope.print());
+		}
+		sb.append(ieaTrailer.print());
+		
+		return sb.toString();
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(isaHeader.toString());
+		for (int i=0; i < functionalGroupEnvelopes.size(); i++) {
+			X12FunctionalGroupEnvelope gsEnvelope = functionalGroupEnvelopes.get(i);
+			sb.append(gsEnvelope.toString());
+		}
+		sb.append(ieaTrailer.toString());
+		return sb.toString();
 	}
 }

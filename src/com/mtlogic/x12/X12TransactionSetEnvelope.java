@@ -39,10 +39,10 @@ public class X12TransactionSetEnvelope {
 		Vector<String> messages = new Vector<String>();
 		
 		if (stHeader == null) {
-			messages.add("Could not parse ST segment!");
+			messages.add("Missing segment: ST!");
 		}
 		if (seTrailer == null) {
-			messages.add("Could not parse SE segment!");
+			messages.add("Missing segment: SE!");
 		}
 		
 		if (messages.isEmpty()) {
@@ -59,5 +59,33 @@ public class X12TransactionSetEnvelope {
 		}
 		
 		return messages;
+	}
+	
+	public String print() {
+		StringBuffer sb = new StringBuffer();
+					
+		sb.append(stHeader.print());
+		
+		for (X12Segment segment : getSegments()) {
+			sb.append(segment.print());
+		}
+		
+		sb.append(seTrailer.print());
+		
+		return sb.toString();
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(stHeader.toString());
+		
+		for (X12Segment segment : getSegments()) {
+			sb.append(segment.toString());
+		}
+		
+		sb.append(seTrailer.toString());
+		
+		return sb.toString();
 	}
 }

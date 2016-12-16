@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
-public class X12GSHeader {
+public class X12GSHeader extends X12Base {
 	final String name = "GS";
 	String gs01;
 	String gs02;
@@ -20,7 +20,7 @@ public class X12GSHeader {
 	
 	public X12GSHeader(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message.GS) 
+		if (data != null && !data.isEmpty() && data.startsWith(GS) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;

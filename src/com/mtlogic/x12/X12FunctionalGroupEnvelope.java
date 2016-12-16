@@ -56,4 +56,49 @@ public class X12FunctionalGroupEnvelope {
 		
 		return messages;
 	}
+	
+	public String print() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(gsHeader.print());
+		
+		for (int k=0; k < transactionSetEnvelopes.size(); k++) {
+			X12TransactionSetEnvelope stEnvelope = transactionSetEnvelopes.get(k);
+			sb.append(stEnvelope.print());
+			/*sb.append(stEnvelope.getStHeader().print());
+			
+			for (X12Segment segment : stEnvelope.getSegments()) {
+				sb.append(segment.print());
+			}
+			
+			sb.append(stEnvelope.getSeTrailer().print());*/
+		}
+		
+		sb.append(geTrailer.print());
+		
+		return sb.toString();
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(gsHeader.toString());
+		
+		for (int j=0; j < transactionSetEnvelopes.size(); j++) {
+			X12TransactionSetEnvelope stEnvelope = transactionSetEnvelopes.get(j);
+			sb.append(stEnvelope.toString());
+			
+			/*sb.append(stEnvelope.getStHeader().toString());
+			
+			for (X12Segment segment : stEnvelope.getSegments()) {
+				sb.append(segment.toString());
+			}
+			
+			sb.append(stEnvelope.getSeTrailer().toString());*/
+		}
+		
+		sb.append(geTrailer.toString());
+		
+		return sb.toString();
+	}
 }

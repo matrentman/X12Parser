@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
-public class X12IEATrailer {
+public class X12IEATrailer extends X12Base {
 	final String name = "IEA";
 	String iea01;
 	String iea02;
@@ -14,7 +14,7 @@ public class X12IEATrailer {
 	
 	public X12IEATrailer(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message.IEA) 
+		if (data != null && !data.isEmpty() && data.startsWith(IEA) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;

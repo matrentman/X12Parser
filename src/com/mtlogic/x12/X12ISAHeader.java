@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
-public class X12ISAHeader {
+public class X12ISAHeader extends X12Base {
 	final String name = "ISA";
 	String isa01;
 	String isa02;
@@ -28,7 +28,7 @@ public class X12ISAHeader {
 	
 	public X12ISAHeader(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message.ISA) 
+		if (data != null && !data.isEmpty() && data.startsWith(ISA) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;

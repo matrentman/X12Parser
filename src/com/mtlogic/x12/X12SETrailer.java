@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
-public class X12SETrailer {
+public class X12SETrailer extends X12Base {
 	final String name = "SE";
 	String se01;
 	String se02;
@@ -14,7 +14,7 @@ public class X12SETrailer {
 	
 	public X12SETrailer(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
-		if (data != null && !data.isEmpty() && data.startsWith(X12Message.SE) 
+		if (data != null && !data.isEmpty() && data.startsWith(SE) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
 			this.segmentDelimiter = segmentDelimiter;
 			this.elementDelimiter = elementDelimiter;
