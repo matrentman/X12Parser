@@ -173,9 +173,8 @@ public class X12InterchangeControlEnvelope extends X12Base {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(isaHeader.print());
-		for (int j=0; j < functionalGroupEnvelopes.size(); j++) {
-			X12FunctionalGroupEnvelope gsEnvelope = functionalGroupEnvelopes.get(j);
-			sb.append(gsEnvelope.print());
+		for (X12FunctionalGroupEnvelope envelope : functionalGroupEnvelopes) {
+			sb.append(envelope.print());
 		}
 		sb.append(ieaTrailer.print());
 		
@@ -185,9 +184,8 @@ public class X12InterchangeControlEnvelope extends X12Base {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(isaHeader.toString());
-		for (int i=0; i < functionalGroupEnvelopes.size(); i++) {
-			X12FunctionalGroupEnvelope gsEnvelope = functionalGroupEnvelopes.get(i);
-			sb.append(gsEnvelope.toString());
+		for (X12FunctionalGroupEnvelope envelope : functionalGroupEnvelopes) {
+			sb.append(envelope.toString());
 		}
 		sb.append(ieaTrailer.toString());
 		return sb.toString();

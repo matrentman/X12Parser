@@ -40,8 +40,8 @@ public class X12Message extends X12Base {
 	public String print() {
 		StringBuffer sb = new StringBuffer();
 		
-		for (int i=0; i < interchangeControlList.size(); i++) {
-			sb.append(interchangeControlList.get(i).print());
+		for (X12InterchangeControlEnvelope envelope : interchangeControlList) {
+			sb.append(envelope.print());
 		}
 		
 		return sb.toString();
@@ -50,8 +50,8 @@ public class X12Message extends X12Base {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		
-		for (int i=0; i < interchangeControlList.size(); i++) {
-			sb.append(interchangeControlList.get(i).toString());
+		for (X12InterchangeControlEnvelope envelope : interchangeControlList) {
+			sb.append(envelope.toString());
 		}
 		
 		return sb.toString();
