@@ -141,13 +141,13 @@ public class X12InterchangeControlEnvelope extends X12Base {
 		}
 		
 		if (numISA != numIEA) {
-			messages.add("Missmatched segment: ISA/IEA");
+			messages.add("Mismatched segment: ISA/IEA");
 		}
 		if (numGS != numGE) {
-			messages.add("Missmatched segment: GS/GE");
+			messages.add("Mismatched segment: GS/GE");
 		}
 		if (numST != numSE) {
-			messages.add("Missmatched segment: ST/SE");
+			messages.add("Mismatched segment: ST/SE");
 		}
 		
 		if (!messages.isEmpty()) {

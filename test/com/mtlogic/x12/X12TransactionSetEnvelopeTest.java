@@ -101,7 +101,7 @@ public class X12TransactionSetEnvelopeTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: ST/SE]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: ST/SE]"));
 		}
 	}
 
@@ -117,7 +117,7 @@ public class X12TransactionSetEnvelopeTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: ST/SE]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: ST/SE]"));
 		}
 	}
 }

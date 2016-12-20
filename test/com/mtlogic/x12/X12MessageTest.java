@@ -109,7 +109,7 @@ public class X12MessageTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: ISA/IEA]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: ISA/IEA]"));
 		}
 	}
 
@@ -126,7 +126,7 @@ public class X12MessageTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: GS/GE]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: GS/GE]"));
 		}
 	}
 
@@ -142,7 +142,7 @@ public class X12MessageTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: GS/GE]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: GS/GE]"));
 		}
 	}
 	
@@ -158,7 +158,7 @@ public class X12MessageTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: ST/SE]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: ST/SE]"));
 		}
 	}
 
@@ -174,7 +174,7 @@ public class X12MessageTest {
 			exceptionMessage = e.getMessage();
 		} finally {
 			assertNotNull(exceptionMessage);
-			assertTrue(exceptionMessage.contains("[Missmatched segment: ST/SE]"));
+			assertTrue(exceptionMessage.contains("[Mismatched segment: ST/SE]"));
 		}
 	}
 }
