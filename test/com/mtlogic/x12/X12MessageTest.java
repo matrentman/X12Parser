@@ -32,7 +32,7 @@ public class X12MessageTest {
 			System.out.println(e.getMessage());
 		} finally {
 			assertNotNull(parsed276);
-			assertEquals(parsed276, msg276);
+			assertEquals(parsed276, msg276.replace(':', '|'));
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class X12MessageTest {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
-			segments = msg276.split("~");
+			segments = msg276.replace(':', '|').split("~");
 			for (String segment : segments) {
 				assertTrue(formatted276.contains(segment));
 			}

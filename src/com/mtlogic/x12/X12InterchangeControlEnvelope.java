@@ -5,19 +5,14 @@ import java.util.Vector;
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12InterchangeControlEnvelope extends X12Base {
-	String elementDelimiter;
-	String repetitionDelimiter;
-	String subelementDelimiter;
-	String segmentDelimiter;
 	X12ISAHeader isaHeader;
 	X12IEATrailer ieaTrailer;
 	Vector<X12FunctionalGroupEnvelope> functionalGroupEnvelopes;
 	
 	public X12InterchangeControlEnvelope(String data) throws InvalidX12MessageException {
-		elementDelimiter = "" + data.charAt(ELEMENT_DELIMITER_PS);
-		repetitionDelimiter = "" + data.charAt(REPETITION_DELIMITER_PS);
-		subelementDelimiter = "" + data.charAt(SUB_ELEMENT_DELIMITER_PS);
-		segmentDelimiter = "" + data.charAt(SEGMENT_DELIMITER_PS);
+		
+		data = this.replaceDelimiters(data);
+		
 		functionalGroupEnvelopes = new Vector<X12FunctionalGroupEnvelope>();
 		X12FunctionalGroupEnvelope gsEnvelope = null;
 		X12TransactionSetEnvelope stEnvelope = null;
@@ -25,39 +20,39 @@ public class X12InterchangeControlEnvelope extends X12Base {
 			throw new InvalidX12MessageException("Invalid message: [Missing segment: ISA!]");
 		}
 		
-		String[] parsedSegments = data.split(segmentDelimiter);
+		String[] parsedSegments = data.split("" + ECP_STANDARD_SEGMENT_DELIMITER);
 		validateEnvelopes(parsedSegments);
 		
-		if ((parsedSegments[0].startsWith(ISA + elementDelimiter))) {
+		if ((parsedSegments[0].startsWith(ISA + ECP_STANDARD_ELEMENT_DELIMITER))) {
 			X12Segment segment = null;
 			for (String str : parsedSegments) {
-	            if (str.startsWith(ISA + elementDelimiter)) {
-	            	isaHeader = new X12ISAHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            } else if (str.startsWith(IEA + elementDelimiter)) {
-	            	ieaTrailer = new X12IEATrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
-	            } else if (str.startsWith(GS + elementDelimiter)) {
+	            if (str.startsWith(ISA + ECP_STANDARD_ELEMENT_DELIMITER)) {
+	            	isaHeader = new X12ISAHeader(str, "" + ECP_STANDARD_SEGMENT_DELIMITER, "" + ECP_STANDARD_ELEMENT_DELIMITER, "" + ECP_STANDARD_SUBELEMENT_DELIMITER);
+	            } else if (str.startsWith(IEA + ECP_STANDARD_ELEMENT_DELIMITER)) {
+	            	ieaTrailer = new X12IEATrailer(str, "" + ECP_STANDARD_SEGMENT_DELIMITER, "" + ECP_STANDARD_ELEMENT_DELIMITER, "" + ECP_STANDARD_SUBELEMENT_DELIMITER);
+	            } else if (str.startsWith(GS + ECP_STANDARD_ELEMENT_DELIMITER)) {
 	            	gsEnvelope = new X12FunctionalGroupEnvelope();
-	            	X12GSHeader gsHeader = new X12GSHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
+	            	X12GSHeader gsHeader = new X12GSHeader(str, "" + ECP_STANDARD_SEGMENT_DELIMITER, "" + ECP_STANDARD_ELEMENT_DELIMITER, "" + ECP_STANDARD_SUBELEMENT_DELIMITER);
 	            	gsEnvelope.setGsHeader(gsHeader);
-	            } else if (str.startsWith(GE + elementDelimiter)) {
+	            } else if (str.startsWith(GE + ECP_STANDARD_ELEMENT_DELIMITER)) {
 	            	if (gsEnvelope != null) {
-		            	X12GETrailer geTrailer = new X12GETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
+		            	X12GETrailer geTrailer = new X12GETrailer(str, "" + ECP_STANDARD_SEGMENT_DELIMITER, "" + ECP_STANDARD_ELEMENT_DELIMITER, "" + ECP_STANDARD_SUBELEMENT_DELIMITER);
 		            	gsEnvelope.setGeTrailer(geTrailer);
 		            	gsEnvelope.getTransactionSetEnvelopes().add(stEnvelope);
 		            	functionalGroupEnvelopes.add(gsEnvelope);
 	            	} else	{
 	            		throw new InvalidX12MessageException("Invalid message: [Missing segment: GS!]");
 	            	}
-	            } else if (str.startsWith(ST + elementDelimiter)) {
+	            } else if (str.startsWith(ST + ECP_STANDARD_ELEMENT_DELIMITER)) {
 	            	stEnvelope = new X12TransactionSetEnvelope();
-	            	X12STHeader stHeader = new X12STHeader(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
+	            	X12STHeader stHeader = new X12STHeader(str, "" + ECP_STANDARD_SEGMENT_DELIMITER, "" + ECP_STANDARD_ELEMENT_DELIMITER, "" + ECP_STANDARD_SUBELEMENT_DELIMITER);
 	            	stEnvelope.setStHeader(stHeader);
-	            } else if (str.startsWith(SE + elementDelimiter)) {
-	            	X12SETrailer seTrailer = new X12SETrailer(str, segmentDelimiter, elementDelimiter, subelementDelimiter);
+	            } else if (str.startsWith(SE + ECP_STANDARD_ELEMENT_DELIMITER)) {
+	            	X12SETrailer seTrailer = new X12SETrailer(str, "" + ECP_STANDARD_SEGMENT_DELIMITER, "" + ECP_STANDARD_ELEMENT_DELIMITER, "" + ECP_STANDARD_SUBELEMENT_DELIMITER);
 	            	stEnvelope.setSeTrailer(seTrailer);
 	            } else {
 	            	if (stEnvelope != null) {
-	            		segment = new X12Segment(str, elementDelimiter);
+	            		segment = new X12Segment(str, "" + ECP_STANDARD_ELEMENT_DELIMITER);
 	            		stEnvelope.getSegments().add(segment);
 	            	} else {
 	            		throw new InvalidX12MessageException("Invalid message: [Missing segment: ST!]"); 
@@ -94,15 +89,6 @@ public class X12InterchangeControlEnvelope extends X12Base {
 	public Vector<String> validate() {
 		Vector<String> messages = new Vector<String>();
 		
-		if (this.elementDelimiter == null || this.elementDelimiter.isEmpty()) {
-			messages.add("Could not parse element delimiter!");
-		}
-		if (this.subelementDelimiter == null || this.subelementDelimiter.isEmpty()) {
-			messages.add("Could not parse subelement delimiter!");
-		}
-		if (this.segmentDelimiter == null || this.segmentDelimiter.isEmpty()) {
-			messages.add("Could not parse segment delimiter!");
-		}
 		if (this.getIsaHeader() == null) {
 			messages.add("Could not parse ISA segment!");
 		}
@@ -188,6 +174,65 @@ public class X12InterchangeControlEnvelope extends X12Base {
 			sb.append(envelope.toString());
 		}
 		sb.append(ieaTrailer.toString());
+		return sb.toString();
+	}
+	
+	private String replaceDelimiters(String data) throws InvalidX12MessageException {
+		StringBuilder sb = null;
+		char elementDelimiter = data.charAt(ELEMENT_DELIMITER_PS);
+		char repetitionDelimiter = data.charAt(REPETITION_DELIMITER_PS);
+		char subelementDelimiter = data.charAt(SUB_ELEMENT_DELIMITER_PS);
+		char segmentDelimiter = data.charAt(SEGMENT_DELIMITER_PS);
+		
+		Vector<String> messages = new Vector<String>();
+		
+		if (elementDelimiter == '\u0000') {
+			messages.add("Could not parse element delimiter!");
+		}
+		if (subelementDelimiter == '\u0000') {
+			messages.add("Could not parse subelement delimiter!");
+		}
+		if (segmentDelimiter == '\u0000') {
+			messages.add("Could not parse segment delimiter!");
+		}
+		
+		if (messages.isEmpty()) {		
+			sb = new StringBuilder(data);
+			boolean hasRepetitionDelimiter = true;
+			
+			//if (version == "00401" || repetitionDelimiter == 'U') {
+			if (repetitionDelimiter == 'U') {
+	            hasRepetitionDelimiter = false;
+	        }
+			
+			for (int i = 0; i < sb.length(); i++) {
+				if (sb.charAt(i) == segmentDelimiter)
+	            {
+	                sb.setCharAt(i, ECP_STANDARD_SEGMENT_DELIMITER);
+	                continue;
+	            }
+	            if (sb.charAt(i) == elementDelimiter)
+	            {
+	            	sb.setCharAt(i, '*');
+	                continue;
+	            }
+	            if (sb.charAt(i) == subelementDelimiter)
+	            {
+	            	sb.setCharAt(i, '|');
+	                continue;
+	            }
+	            if ((hasRepetitionDelimiter) &&  (sb.charAt(i) == repetitionDelimiter)) {
+	            	sb.setCharAt(i, '^');
+	                continue;
+	            }
+	            if ("~*|^".contains(""+sb.charAt(i))) {
+	            	sb.setCharAt(i, '-');
+	            }
+			}
+		} else {
+			throw new InvalidX12MessageException(this.formatErrorMessages(messages));
+		}
+		
 		return sb.toString();
 	}
 }
