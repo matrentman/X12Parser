@@ -13,9 +13,10 @@ public class X12Base {
 	public static final int ELEMENT_DELIMITER_PS = 103;
 	public static final int SUB_ELEMENT_DELIMITER_PS = 104;
 	public static final int SEGMENT_DELIMITER_PS = 105;
-	public static final String ECP_STANDARD_SEGMENT_DELIMITER = "~";
-	public static final String ECP_STANDARD_ELEMENT_DELIMITER = "*";
-	public static final String ECP_STANDARD_SUBELEMENT_DELIMITER = ":";
+	public static final char ECP_STANDARD_SEGMENT_DELIMITER = '~';
+	public static final char ECP_STANDARD_ELEMENT_DELIMITER = '*';
+	public static final char ECP_STANDARD_SUBELEMENT_DELIMITER = '|';
+	public static final char ECP_STANDARD_REPETIION_DELIMITER = '^';
 	
 	public String formatErrorMessages(Vector<String> messages) {
 		StringBuffer sb = new StringBuffer();
