@@ -77,6 +77,24 @@ public class X12GETrailer extends X12Base {
 				+ this.segmentDelimiter;
 	}
 	
+	public String toJSONString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("\"");
+		sb.append(this.name);
+		sb.append("\":{\"");
+		sb.append(X12Base.GE_NOTS);
+		sb.append("\":\"");
+		sb.append(this.ge01);
+		sb.append("\",\"");
+		sb.append(X12Base.GE_GCN);
+		sb.append("\":\"");
+		sb.append(this.ge02);
+		sb.append("\"},");
+		
+		return sb.toString();
+	}
+	
 	public Vector<String> validate()  {
 		Vector<String> messages = new Vector<String>();
 		

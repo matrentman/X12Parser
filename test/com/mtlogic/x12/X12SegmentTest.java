@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import com.mtlogic.x12.X12Segment;
+
 public class X12SegmentTest {
 	String isaSegment = "ISA*00*          *00*          *ZZ*341559999      *ZZ*CONSULT        *151005*1043*^*00501*000004251*0*P*:~";
 
@@ -14,7 +16,7 @@ public class X12SegmentTest {
 		X12Segment segment = null;
 		try {
 			String[] segmentArray = isaSegment.split("~");
-			segment = new X12Segment(segmentArray[0], "*");
+			segment = new X12Segment(segmentArray[0], "*", 0, null);
 			parsedSegment = segment.toString();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -30,7 +32,7 @@ public class X12SegmentTest {
 		X12Segment segment = null;
 		try {
 			String[] segmentArray = isaSegment.split("~");
-			segment = new X12Segment(segmentArray[0], "*");
+			segment = new X12Segment(segmentArray[0], "*", 0, null);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -46,7 +48,7 @@ public class X12SegmentTest {
 		X12Segment segment = null;
 		try {
 			String[] segmentArray = isaSegment.split("~");
-			segment = new X12Segment(segmentArray[0], "*");
+			segment = new X12Segment(segmentArray[0], "*", 0, null);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -64,7 +66,7 @@ public class X12SegmentTest {
 		String[] fieldArray = null;
 		try {
 			segmentArray = isaSegment.split("~");
-			segment = new X12Segment(segmentArray[0], "*");
+			segment = new X12Segment(segmentArray[0], "*", 0, null);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {

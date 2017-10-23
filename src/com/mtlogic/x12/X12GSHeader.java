@@ -123,6 +123,48 @@ public class X12GSHeader extends X12Base {
 				+ this.gs08 + this.segmentDelimiter;
 	}
 	
+	public String toJSONString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("\"");
+		sb.append(this.name);
+		sb.append("\":{\"");
+		sb.append(X12Base.GS_FIC);
+		sb.append("\":\"");
+		sb.append(this.gs01);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_ASC);
+		sb.append("\":\"");
+		sb.append(this.gs02);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_ARC);
+		sb.append("\":\"");
+		sb.append(this.gs03);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_DATE);
+		sb.append("\":\"");
+		sb.append(this.gs04);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_TIME);
+		sb.append("\":\"");
+		sb.append(this.gs05);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_GCN);
+		sb.append("\":\"");
+		sb.append(this.gs06);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_RAC);
+		sb.append("\":\"");
+		sb.append(this.gs07);
+		sb.append("\",\"");
+		sb.append(X12Base.GS_VERSION);
+		sb.append("\":\"");
+		sb.append(this.gs08);
+		sb.append("\"},");
+		
+		return sb.toString();
+	}
+	
 	public Vector<String> validate()  {
 		Vector<String> messages = new Vector<String>();
 		

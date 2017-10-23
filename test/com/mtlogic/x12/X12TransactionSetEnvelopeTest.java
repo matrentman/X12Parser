@@ -8,6 +8,10 @@ import java.util.Vector;
 
 import org.junit.Test;
 
+import com.mtlogic.x12.X12FunctionalGroupEnvelope;
+import com.mtlogic.x12.X12Message;
+import com.mtlogic.x12.X12Segment;
+import com.mtlogic.x12.X12TransactionSetEnvelope;
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12TransactionSetEnvelopeTest {
@@ -102,6 +106,45 @@ public class X12TransactionSetEnvelopeTest {
 		} finally {
 			assertNotNull(exceptionMessage);
 			assertTrue(exceptionMessage.contains("[Mismatched segment: ST/SE]"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetSetIdentifierCode() {
+		String formattedEnvelope = null;
+		X12Message message = null;
+		X12TransactionSetEnvelope envelope = null;
+		try {
+			message = new X12Message(msg276);
+			envelope = message.getInterchangeControlList().get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(0);
+			formattedEnvelope = message.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSetIdentifierCode());
+			assertTrue(envelope.getSetIdentifierCode().equals("276"));
+		}
+	}
+	
+	@Test
+	public void testShouldSetSetIdentifierCode() {
+		String formattedEnvelope = null;
+		X12Message message = null;
+		X12TransactionSetEnvelope envelope = null;
+		try {
+			message = new X12Message(msg276);
+			envelope = message.getInterchangeControlList().get(0).getFunctionalGroupEnvelopes().get(0).getTransactionSetEnvelopes().get(0);
+			formattedEnvelope = message.print();
+			envelope.setSetIdentifierCode("277");
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSetIdentifierCode());
+			assertTrue(envelope.getSetIdentifierCode().equals("277"));
 		}
 	}
 

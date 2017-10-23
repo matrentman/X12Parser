@@ -38,7 +38,7 @@ public class X12Message extends X12Base {
 	}
 	
 	public String print() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		for (X12InterchangeControlEnvelope envelope : interchangeControlList) {
 			sb.append(envelope.print());
@@ -48,12 +48,29 @@ public class X12Message extends X12Base {
 	}
 	
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
 		for (X12InterchangeControlEnvelope envelope : interchangeControlList) {
 			sb.append(envelope.toString());
 		}
 		
+		return sb.toString();
+	}
+	
+	public String toJSONString() {
+		return toJSONString(Boolean.FALSE);
+	}
+	
+	public String toJSONString(Boolean verbose) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		
+		for (X12InterchangeControlEnvelope envelope : interchangeControlList) {
+			sb.append(envelope.toJSONString(verbose));
+			//sb.append(envelope.toJSONString());
+		}
+		
+		sb.append("}");
 		return sb.toString();
 	}
 	
@@ -65,5 +82,9 @@ public class X12Message extends X12Base {
 	
 	private void postValidate() throws InvalidX12MessageException {
 		this.validate();
+	}
+	
+	public boolean hasConnectionError() {
+		return interchangeControlList.get(0).hasConnectionError();
 	}
 }

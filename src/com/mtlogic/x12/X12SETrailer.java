@@ -60,6 +60,24 @@ public class X12SETrailer extends X12Base {
 		return this.name + elementDelimiter + this.se01 + elementDelimiter + this.se02 + this.segmentDelimiter;
 	}
 	
+	public String toJSONString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("\"");
+		sb.append(this.name);
+		sb.append("\":{\"");
+		sb.append(X12Base.SE_NOTS);
+		sb.append("\":\"");
+		sb.append(this.se01);
+		sb.append("\",\"");
+		sb.append(X12Base.SE_GCN);
+		sb.append("\":\"");
+		sb.append(this.se02);
+		sb.append("\"},");
+		
+		return sb.toString();
+	}
+	
 	public Vector<String> validate()  {
 		Vector<String> messages = new Vector<String>();
 		

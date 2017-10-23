@@ -8,6 +8,9 @@ import java.util.Vector;
 
 import org.junit.Test;
 
+import com.mtlogic.x12.X12FunctionalGroupEnvelope;
+import com.mtlogic.x12.X12Message;
+import com.mtlogic.x12.X12Segment;
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12FunctionalGroupEnvelopeTest {

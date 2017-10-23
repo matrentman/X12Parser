@@ -4,10 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.junit.Test;
 
+import com.mtlogic.x12.X12InterchangeControlEnvelope;
+import com.mtlogic.x12.X12Segment;
 import com.mtlogic.x12.exception.InvalidX12MessageException;
 
 public class X12InterchangeControlEnvelopeTest {
@@ -80,7 +83,251 @@ public class X12InterchangeControlEnvelopeTest {
 			}
 		}
 	}
+	
+	@Test
+	public void testShouldGetDataSegments() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		List<X12Segment> dataSegments = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+			dataSegments = envelope.getDataSegments();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(dataSegments);
+			assertTrue(dataSegments.size() == 15);
+			for (X12Segment segment : dataSegments) {
+				assertTrue(formatted276.contains(segment.toString()));
+			}
+		}
+	}
+	
+	@Test
+	public void testShouldGetSubscriberIdentifier() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSubscriberIdentifier());
+			assertTrue(envelope.getSubscriberIdentifier().equals("562912567807"));
+		}
+	}
+	
+	@Test
+	public void testIsDependentShouldReturnTrue() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertTrue(envelope.isDependent());
+		}
+	}
+	
+	@Test
+	public void testShouldGetPatientFirstName() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getPatientFirstName());
+			assertTrue(envelope.getPatientFirstName().equals("JENNIFER"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetPatientLastName() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getPatientLastName());
+			assertTrue(envelope.getPatientLastName().equals("TALLMAN"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetDependentFirstName() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getDependentFirstName());
+			assertTrue(envelope.getDependentFirstName().equals("JENNIFER"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetDependentLastName() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getDependentLastName());
+			assertTrue(envelope.getDependentLastName().equals("TALLMAN"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetSubscriberFirstName() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSubscriberFirstName());
+			assertTrue(envelope.getSubscriberFirstName().equals("DARYN"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetSubscriberLastName() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSubscriberLastName());
+			assertTrue(envelope.getSubscriberLastName().equals("TALLMAN"));
+		}
+	}
+	
+	@Test
+	public void testShouldGetPatientBirthDate() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getPatientBirthDate());
+			assertTrue(envelope.getPatientBirthDate().equals("19780729"));
+		}
+	}
 
+	@Test
+	public void testShouldGetSubmitter() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSubmitter());
+			assertTrue(envelope.getSubmitter().equals("341559999      "));
+		}
+	}
+	
+	@Test
+	public void testShouldSetSubmitter() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+			envelope.setSubmitter("SUBMITTER      ");
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getSubmitter());
+			assertTrue(envelope.getSubmitter().equals("SUBMITTER      "));
+		}
+	}
+	
+	@Test
+	public void testShouldGetReceiver() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getReceiver());
+			assertTrue(envelope.getReceiver().equals("CONSULT        "));
+		}
+	}
+	
+	@Test
+	public void testShouldSetReceiver() {
+		String formatted276 = null;
+		X12InterchangeControlEnvelope envelope = null;
+		try {
+			envelope = new X12InterchangeControlEnvelope(msg276);
+			formatted276 = envelope.print();
+			envelope.setReceiver("RECEIVER       ");
+		} catch (InvalidX12MessageException ixme) {
+			System.out.println(ixme.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			assertNotNull(envelope.getReceiver());
+			assertTrue(envelope.getReceiver().equals("RECEIVER       "));
+		}
+	}
+	
 	@Test
 	public void testParsedMessageStringWithMissingISASegmentShouldThrowException() {
 		String exceptionMessage = null;

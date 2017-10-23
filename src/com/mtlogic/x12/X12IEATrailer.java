@@ -61,6 +61,24 @@ public class X12IEATrailer extends X12Base {
 				+ this.segmentDelimiter;
 	}
 	
+	public String toJSONString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("\"");
+		sb.append(this.name);
+		sb.append("\":{\"");
+		sb.append(X12Base.IEA_NOFG);
+		sb.append("\":\"");
+		sb.append(this.iea01);
+		sb.append("\",\"");
+		sb.append(X12Base.IEA_ICN);
+		sb.append("\":\"");
+		sb.append(this.iea02);
+		sb.append("\"}");
+		
+		return sb.toString();
+	}
+	
 	public Vector<String> validate()  {
 		Vector<String> messages = new Vector<String>();
 		

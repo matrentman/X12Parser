@@ -13,7 +13,7 @@ public class X12STHeader extends X12Base {
 	String elementDelimiter;
 	String subelementDelimiter;
 	
-	public X12STHeader(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
+	public X12STHeader(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter, String version) 
 			throws InvalidX12MessageException {
 		if (data != null && !data.isEmpty() && data.startsWith(ST) 
 				&& segmentDelimiter != null && !segmentDelimiter.isEmpty()) {
@@ -28,7 +28,9 @@ public class X12STHeader extends X12Base {
 			}
 			st01 = dataArray[1];
 			st02 = dataArray[2];
-			st03 = dataArray[3];
+			if (version.equals(ANSI_5010)) {
+			    st03 = dataArray[3];
+			}
 		} else {
 			throw new InvalidX12MessageException("Unable to parse GS segment!");
 		}
@@ -62,6 +64,14 @@ public class X12STHeader extends X12Base {
 		return name;
 	}
 	
+	public String getSetIdentifierCode() {
+		return st01;
+	}
+	
+	public void setSetIdentifierCode(String code) {
+		this.st01 = code;
+	}
+	
 	public String print() {
 		return toString() + "\n";
 	}
@@ -70,7 +80,29 @@ public class X12STHeader extends X12Base {
 		return this.name + elementDelimiter + this.st01 + elementDelimiter + this.st02 + elementDelimiter + this.st03 + this.segmentDelimiter;
 	}
 	
-	public Vector<String> validate()  {
+	public String toJSONString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("\"");
+		sb.append(this.name);
+		sb.append("\":{\"");
+		sb.append(X12Base.ST_TSIC);
+		sb.append("\":\"");
+		sb.append(this.st01);
+		sb.append("\",\"");
+		sb.append(X12Base.ST_TSCN);
+		sb.append("\":\"");
+		sb.append(this.st02);
+		sb.append("\",\"");
+		sb.append(X12Base.ST_ICR);
+		sb.append("\":\"");
+		sb.append(this.st03);
+		sb.append("\"},");
+		
+		return sb.toString();
+	}
+	
+	public Vector<String> validate(String version)  {
 		Vector<String> messages = new Vector<String>();
 		
 		if (st01 == null || st01.isEmpty()) {
@@ -79,7 +111,7 @@ public class X12STHeader extends X12Base {
 		if (st02 == null || st02.isEmpty()) {
 			messages.add("Missing field: ST02!");
 		}
-		if (st03 == null || st03.isEmpty()) {
+		if (version.equals(ANSI_5010) && (st03 == null || st03.isEmpty())) {
 			messages.add("Missing field: ST03!");
 		}
 		

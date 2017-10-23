@@ -84,4 +84,19 @@ public class X12FunctionalGroupEnvelope {
 		
 		return sb.toString();
 	}
+	
+	public String toJSONString() {
+		return toJSONString(Boolean.FALSE);
+	}
+	
+	public String toJSONString(Boolean verbose) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(gsHeader.toJSONString());
+		for (X12TransactionSetEnvelope envelope : transactionSetEnvelopes) {
+			sb.append(envelope.toJSONString(verbose));
+		}
+		sb.append(geTrailer.toJSONString());
+		return sb.toString();
+	}
+	
 }

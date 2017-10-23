@@ -25,6 +25,7 @@ public class X12ISAHeader extends X12Base {
 	String segmentDelimiter;
 	String elementDelimiter;
 	String subelementDelimiter;
+	String version;
 	
 	public X12ISAHeader(String data, String segmentDelimiter, String elementDelimiter, String subelementDelimiter) 
 			throws InvalidX12MessageException {
@@ -55,6 +56,7 @@ public class X12ISAHeader extends X12Base {
 			isa14 = dataArray[14];
 			isa15 = dataArray[15];
 			isa16 = dataArray[16];
+			version = isa12;
 		} else {
 			throw new InvalidX12MessageException("Unable to parse ISA segment!");
 		}
@@ -216,6 +218,22 @@ public class X12ISAHeader extends X12Base {
 		return name;
 	}
 	
+	public String getReceiver() {
+		return isa08;
+	}
+	
+	public void setReceiver(String receiver) {
+		this.isa08 = receiver;
+	}
+	
+	public String getSubmitter() {
+		return isa06;
+	}
+	
+	public void setSubmitter(String submitter) {
+		this.isa06 = submitter;
+	}
+	
 	public String print() {
 		return toString() + "\n";
 	}
@@ -257,6 +275,80 @@ public class X12ISAHeader extends X12Base {
 		sb.append(elementDelimiter);
 		sb.append(this.isa16);
 		sb.append(segmentDelimiter);
+		
+		return sb.toString();
+	}
+	
+	public String toJSONString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("\"");
+		sb.append(this.name);
+		sb.append("\":{\"");
+		sb.append(X12Base.ISA_AIQ);
+		sb.append("\":\"");
+		sb.append(this.isa01);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_AI);
+		sb.append("\":\"");
+		sb.append(this.isa02);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_SIQ);
+		sb.append("\":\"");
+		sb.append(this.isa03);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_SI);
+		sb.append("\":\"");
+		sb.append(this.isa04);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_ISIQ);
+		sb.append("\":\"");
+		sb.append(this.isa05);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_ISI);
+		sb.append("\":\"");
+		sb.append(this.isa06);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_IRIQ);
+		sb.append("\":\"");
+		sb.append(this.isa07);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_IRI);
+		sb.append("\":\"");
+		sb.append(this.isa08);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_ID);
+		sb.append("\":\"");
+		sb.append(this.isa09);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_IT);
+		sb.append("\":\"");
+		sb.append(this.isa10);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_RS);
+		sb.append("\":\"");
+		sb.append(this.isa11);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_ICVN);
+		sb.append("\":\"");
+		sb.append(this.isa12);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_AR);
+		sb.append("\":\"");
+		sb.append(this.isa13);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_IUI);
+		sb.append("\":\"");
+		sb.append(this.isa14);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_CES);
+		sb.append("\":\"");
+		sb.append(this.isa15);
+		sb.append("\",\"");
+		sb.append(X12Base.ISA_SES);
+		sb.append("\":\"");
+		sb.append(this.isa16);
+		sb.append("\"},");
 		
 		return sb.toString();
 	}
@@ -363,6 +455,15 @@ public class X12ISAHeader extends X12Base {
 		}
 		
 		return messages;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.isa12 = version;
+		this.version = version;
 	}
 	
 }
